@@ -53,5 +53,86 @@ Error generating stack: `+l.message+`
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   
 <script>(function(){function b(){document.querySelectorAll('img').forEach(function(im,i){im.decoding='async';im.loading='lazy';im.setAttribute('fetchpriority',i<2?'high':'low');});}b();new MutationObserver(b).observe(document.getElementById('root'),{childList:true,subtree:true});window.addEventListener('load',function(){setTimeout(function(){document.querySelectorAll('[class*="marqueeTicker"],.shoot-item').forEach(function(el){el.style.willChange='auto'});},2000);},{once:true});})();</script>
+
+<style id="shoot-viewer-style">
+/* Shoot viewer - viewable but NOT zoomable */
+#shootLightbox{position:fixed;inset:0;z-index:9999;background:rgba(10,6,12,0.92);backdrop-filter:blur(12px);display:none;place-items:center;padding:16px;touch-action:manipulation;overscroll-behavior:none}
+#shootLightbox.active{display:grid;animation:fadeIn .2s ease}
+#shootLightbox img{max-width:min(92vw, 860px);max-height:84vh;width:auto;height:auto;object-fit:contain;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.4);transform:translateZ(0);touch-action:manipulation;user-select:none;-webkit-user-select:none;pointer-events:none}
+#shootLightbox .lb-close{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:9999px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);color:white;display:grid;place-items:center;cursor:pointer;touch-action:manipulation}
+#shootLightbox .lb-caption{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.92);border:1px solid rgba(255,255,255,0.6);padding:8px 14px;border-radius:9999px;font-size:11px;font-weight:700;letter-spacing:0.04em;color:#1A1A1A}
+.shoot-item{cursor:zoom-in}
+.shoot-item img{pointer-events:none}
+</style>
+<div id="shootLightbox" aria-hidden="true" role="dialog">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <img id="lbImg" alt="Our Shoot">
+  <div class="lb-caption">© Our Shoots — pinch-zoom disabled</div>
+</div>
+<script>
+// Shoot viewer - viewable but NOT zoomable
+(function(){
+  var lb=document.getElementById('shootLightbox');
+  var lbImg=document.getElementById('lbImg');
+  var closeBtn=document.getElementById('lbClose');
+  var lastActive=null;
+  
+  function openShoot(src){
+    lastActive=document.activeElement;
+    lbImg.src=src;
+    lb.classList.add('active');
+    lb.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    document.body.style.touchAction='none';
+  }
+  function closeShoot(){
+    lb.classList.remove('active');
+    lb.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    document.body.style.touchAction='';
+    lbImg.src='';
+    if(lastActive) lastActive.focus();
+  }
+  
+  // Prevent zoom inside lightbox
+  lb.addEventListener('touchmove', function(e){ if(e.touches.length>1) e.preventDefault(); }, {passive:false});
+  lb.addEventListener('gesturestart', function(e){ e.preventDefault(); }, {passive:false});
+  lb.addEventListener('gesturechange', function(e){ e.preventDefault(); }, {passive:false});
+  lb.addEventListener('gestureend', function(e){ e.preventDefault(); }, {passive:false});
+  // Double-tap zoom block
+  var lastTap=0;
+  lb.addEventListener('touchend', function(e){
+    var now=Date.now();
+    if(now-lastTap<=300) e.preventDefault();
+    lastTap=now;
+  }, {passive:false});
+  
+  closeBtn.addEventListener('click', closeShoot);
+  lb.addEventListener('click', function(e){ if(e.target===lb) closeShoot(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && lb.classList.contains('active')) closeShoot(); });
+  
+  // Attach to shoot items (React rendered) via delegation
+  function attach(){
+    document.querySelectorAll('.shoot-item').forEach(function(item){
+      if(item.dataset.lbBound) return;
+      item.dataset.lbBound='1';
+      item.style.cursor='zoom-in';
+      item.addEventListener('click', function(){
+        var img=item.querySelector('img');
+        if(img && img.src) openShoot(img.src);
+      });
+      item.addEventListener('touchend', function(e){
+        // prevent double tap zoom but allow click
+        e.preventDefault();
+        var img=item.querySelector('img');
+        if(img && img.src) openShoot(img.src);
+      }, {passive:false});
+    });
+  }
+  attach();
+  new MutationObserver(attach).observe(document.getElementById('root'), {childList:true, subtree:true});
+})();
+</script>
+
 </body>
 </html>
