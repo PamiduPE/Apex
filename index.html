@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Zoom locked: maximum-scale + user-scalable=no (plus JS gesture blocking below) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>ApexCV — ATS-Friendly CV Writing Service in Sri Lanka</title>
   <meta name="description" content="ApexCV writes ATS-friendly CVs that pass the bots and impress recruiters. 2,700+ careers transformed. 1 hour average response.">
   <meta name="theme-color" content="#4a1a4c">
@@ -48,6 +49,10 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 92px;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* no pinch-zoom, no double-tap zoom anywhere on the site */
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
 body {
@@ -105,6 +110,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn-outline:hover { border-color: var(--plum); color: var(--plum); }
 .btn-light { background: #fff; color: var(--plum); }
 .btn-light:hover { background: var(--gold-soft); }
+/* Secondary hero button — solid gold so it reads clearly on white */
+.btn-gold {
+  background: var(--gold);
+  color: var(--plum-deep);
+  border-color: var(--gold);
+  box-shadow: 0 12px 26px -12px rgba(201, 153, 107, 0.9);
+}
+.btn-gold:hover { background: #b9854f; border-color: #b9854f; color: #fff; }
 .btn-block { width: 100%; }
 
 /* =========================================================
@@ -673,8 +686,7 @@ h2 {
 .ln { display: block; height: 1.5cqw; margin: 1.5cqw 0; border-radius: 1cqw; background: #dcd6dd; }
 
 /* CV mock-ups always fill their frame */
-.tpl-thumb > .cv, .modal-preview > .cv, .ba-page > .cv { position: absolute; inset: 0; }
-.modal-preview { position: relative; }
+.tpl-thumb > .cv, .viewer-frame > .cv, .ba-page > .cv { position: absolute; inset: 0; }
 
 /* inner sheets fill the container (cqw units must live on descendants of .cv) */
 .cv-0, .cv-1, .cv-2, .cv-3, .cv-after, .cv-before { height: 100%; }
@@ -1026,41 +1038,123 @@ h2 {
 .sticky-cta.is-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 
 /* =========================================================
-   MODAL
+   VIEWER (swipeable lightbox — templates + shoots, zoom locked)
    ========================================================= */
-.modal {
-  width: min(880px, calc(100% - 32px));
-  max-height: calc(100svh - 32px);
-  padding: 0;
-  border: 0;
-  border-radius: 28px;
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 40px 100px -30px rgba(20, 17, 20, 0.6);
-  overflow: auto;
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  background: rgba(20, 17, 20, 0.94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  /* pan-y only => horizontal swipe handled by us, pinch-zoom impossible */
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.modal::backdrop { background: rgba(20, 17, 20, 0.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
-.modal[open] { animation: pop 0.28s var(--ease); }
-@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(0.98); } }
-.modal-close {
+.viewer.is-open { display: flex; animation: fadeIn 0.22s var(--ease); }
+@keyframes fadeIn { from { opacity: 0; } }
+
+.viewer-bar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  color: #fff;
+}
+.viewer-title { display: flex; flex-direction: column; min-width: 0; }
+.viewer-title strong { font-size: 15px; font-weight: 700; }
+.viewer-title span { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.viewer-close {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.viewer-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.viewer-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  transition: transform 0.32s var(--ease);
+}
+.viewer-track.no-anim { transition: none; }
+.viewer-slide {
+  flex: 0 0 100%;
+  display: grid;
+  place-items: center;
+  padding: 8px 18px 18px;
+  min-width: 0;
+}
+.viewer-frame {
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+  aspect-ratio: 210 / 297;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.7);
+  pointer-events: none; /* swipe passes through to the stage */
+}
+.viewer-frame-photo { aspect-ratio: 4 / 5; background: linear-gradient(160deg, #f6e6d8, #ead6e8); }
+.viewer-frame > .cv { position: absolute; inset: 0; }
+.viewer-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.viewer-frame .shoot-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(74, 26, 76, 0.28); }
+.viewer-frame .shoot-ph .ic { width: 44px; height: 44px; }
+
+.viewer-nav {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 50%;
   z-index: 3;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--line);
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(20, 17, 20, 0.6);
+  color: #fff;
+  transition: opacity 0.2s, background 0.2s;
 }
-.modal-body { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); gap: 32px; padding: 32px; align-items: center; }
-.modal-preview { aspect-ratio: 210 / 297; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-md); }
-.modal-info { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.modal-info h3 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
-.modal-info p { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.viewer-nav:hover { background: rgba(20, 17, 20, 0.9); }
+.viewer-nav:disabled { opacity: 0.25; cursor: default; }
+.viewer-prev { left: 12px; }
+.viewer-next { right: 12px; }
+
+.viewer-foot {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px 18px;
+}
+.viewer-dots { display: flex; align-items: center; gap: 6px; }
+.viewer-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: background 0.2s, transform 0.2s; }
+.viewer-dots i.on { background: var(--gold); transform: scale(1.5); }
 .chip-ok { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 700; }
+
+@media (max-width: 860px) {
+  .viewer-nav { display: none; }
+  .viewer-slide { padding: 6px 12px 12px; }
+}
 
 /* =========================================================
    RESPONSIVE
@@ -1133,8 +1227,6 @@ h2 {
   .ba-notes { grid-template-columns: 1fr; }
 
   .shoot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .modal-body { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
-  .modal-preview { max-width: 320px; margin-inline: auto; }
 }
 
 @media (max-width: 560px) {
@@ -1260,7 +1352,7 @@ body.modal-open { overflow: hidden; }
 
       <div class="hero-cta">
         <a class="btn btn-plum" href="#packages"><span data-i18n="btn_build">Build My CV</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        <a class="btn btn-outline" href="#designs"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-grid"/></svg><span data-i18n="btn_designs">Our Designs</span></a>
+        <a class="btn btn-gold" href="#designs" id="heroDesignsBtn"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-grid"/></svg><span data-i18n="btn_designs">Our Designs</span></a>
       </div>
 
       <div class="trust">
@@ -1653,19 +1745,24 @@ body.modal-open { overflow: hidden; }
 
 <a class="sticky-cta" id="stickyCta" href="#packages"><span data-i18n="sticky">Build My CV Now</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 
-<!-- ============ TEMPLATE PREVIEW MODAL ============ -->
-<dialog class="modal" id="tplModal" aria-labelledby="tplModalTitle">
-  <button class="modal-close" type="button" id="tplClose" aria-label="Close preview"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
-  <div class="modal-body">
-    <div class="modal-preview" id="tplPreview"></div>
-    <div class="modal-info">
-      <span class="chip-ok"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-check"/></svg>ATS-safe layout</span>
-      <h3 id="tplModalTitle">Template #1</h3>
-      <p>Clean structure, standard headings and real text — every parser reads it correctly. We fill it with your story and keywords from your target job.</p>
-      <a class="btn btn-plum" id="tplUse" href="https://wa.me/94721223139" target="_blank" rel="noopener"><span>Use this template</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-    </div>
+<!-- ============ SWIPEABLE VIEWER (templates + shoots) ============ -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Gallery viewer">
+  <div class="viewer-bar">
+    <span class="viewer-title"><strong id="viewerTitle">Template #1</strong><span id="viewerCount">1 / 57</span></span>
+    <button class="viewer-close" type="button" id="viewerClose" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
-</dialog>
+
+  <div class="viewer-stage" id="viewerStage">
+    <div class="viewer-track" id="viewerTrack"></div>
+    <button class="viewer-nav viewer-prev" type="button" id="viewerPrev" aria-label="Previous"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button>
+    <button class="viewer-nav viewer-next" type="button" id="viewerNext" aria-label="Next"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button>
+  </div>
+
+  <div class="viewer-foot">
+    <span class="viewer-dots" id="viewerDots" aria-hidden="true"></span>
+    <a class="btn btn-plum" id="viewerCta" href="https://wa.me/94721223139" target="_blank" rel="noopener"><span>Use this design</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+</div>
 
 <script>
 /* =========================================================
@@ -1693,6 +1790,28 @@ body.modal-open { overflow: hidden; }
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
   const isWebKit = isIOS || isSafari;
+
+  /* =========================================================
+     ZOOM LOCK
+     The viewport meta handles most browsers, but iOS Safari ignores
+     user-scalable=no, so pinch gestures and double-tap are blocked here.
+     ========================================================= */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach((evt) =>
+    document.addEventListener(evt, (e) => e.preventDefault(), { passive: false }));
+
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches.length > 1) e.preventDefault(); // multi-finger pinch
+  }, { passive: false });
+
+  let lastTap = 0;
+  document.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if (now - lastTap < 320) e.preventDefault(); // double-tap zoom
+    lastTap = now;
+  }, { passive: false });
+
+  document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
+  document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 
   /* ---------- Footer year ---------- */
   const yearEl = $('#year');
@@ -2007,38 +2126,134 @@ body.modal-open { overflow: hidden; }
   const tplToggle = $('#tplToggle');
   const tplToggleLabel = $('#tplToggleLabel');
   let moreBuilt = false;
-  tplToggle.addEventListener('click', () => {
+  const expandTemplates = (scroll) => {
     if (!moreBuilt) {
       tplMore.innerHTML = templates.slice(4).map((t, k) => cardHTML(t, k + 4)).join('');
       moreBuilt = true;
     }
-    const opening = tplMore.hidden;
-    tplMore.hidden = !opening;
-    tplToggle.setAttribute('aria-expanded', String(opening));
-    tplToggleLabel.textContent = opening ? 'Show Fewer Templates' : 'Show More Templates — 53 more';
-    if (opening) tplMore.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+    tplMore.hidden = false;
+    tplToggle.setAttribute('aria-expanded', 'true');
+    tplToggleLabel.textContent = 'Show Fewer Templates';
+    if (scroll) tplMore.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+  };
+  tplToggle.addEventListener('click', () => {
+    if (tplMore.hidden) { expandTemplates(true); return; }
+    tplMore.hidden = true;
+    tplToggle.setAttribute('aria-expanded', 'false');
+    tplToggleLabel.textContent = 'Show More Templates — 53 more';
   });
 
-  // Preview modal
-  const modal = $('#tplModal');
-  const preview = $('#tplPreview');
-  const modalTitle = $('#tplModalTitle');
-  const useBtn = $('#tplUse');
-  const openTemplate = (i) => {
-    const t = templates[i];
-    preview.innerHTML = cvHTML(t, i);
-    modalTitle.textContent = `Template #${i + 1}`;
-    useBtn.href = waLink(`Hi ApexCV! I'd like Template #${i + 1} (${t.role} layout) for my CV.`);
-    document.body.classList.add('modal-open');
-    if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', '');
+  /* "Our Designs" in the hero → jump to the section with every design already open */
+  const heroDesignsBtn = $('#heroDesignsBtn');
+  if (heroDesignsBtn) heroDesignsBtn.addEventListener('click', () => {
+    expandTemplates(false);
+    setTimeout(updateArrows, 60);
+  });
+
+  /* =========================================================
+     SWIPEABLE VIEWER — used by templates and by shoots.
+     Pinch-zoom is impossible inside it (touch-action: pan-y +
+     blocked gesture events), only horizontal swiping.
+     ========================================================= */
+  const viewer = $('#viewer');
+  const vTrack = $('#viewerTrack');
+  const vStage = $('#viewerStage');
+  const vTitle = $('#viewerTitle');
+  const vCount = $('#viewerCount');
+  const vDots = $('#viewerDots');
+  const vPrev = $('#viewerPrev');
+  const vNext = $('#viewerNext');
+  const vCta = $('#viewerCta');
+
+  let vItems = [];   // [{ html, title, wa }]
+  let vIndex = 0;
+
+  const vRender = (animate = true) => {
+    vTrack.classList.toggle('no-anim', !animate || reduceMotion);
+    vTrack.style.transform = `translateX(${-vIndex * 100}%)`;
+    const item = vItems[vIndex] || {};
+    vTitle.textContent = item.title || '';
+    vCount.textContent = `${vIndex + 1} / ${vItems.length}`;
+    vCta.href = waLink(item.wa || "Hi ApexCV! I'd like help with my CV.");
+    vPrev.disabled = vIndex === 0;
+    vNext.disabled = vIndex === vItems.length - 1;
+    $$('i', vDots).forEach((d, k) => d.classList.toggle('on', k === vIndex));
   };
+  const vGo = (i) => {
+    vIndex = Math.min(vItems.length - 1, Math.max(0, i));
+    vRender(true);
+  };
+
+  const openViewer = (items, start, ctaLabel) => {
+    vItems = items;
+    vIndex = Math.min(items.length - 1, Math.max(0, start));
+    vTrack.innerHTML = items.map((it) => `<div class="viewer-slide">${it.html}</div>`).join('');
+    // dots only when the set is small enough to be readable
+    vDots.innerHTML = items.length <= 20 ? items.map(() => '<i></i>').join('') : '';
+    vCta.querySelector('span').textContent = ctaLabel || 'Use this design';
+    viewer.classList.add('is-open');
+    document.body.classList.add('modal-open');
+    vRender(false);
+    requestAnimationFrame(() => vRender(false));
+  };
+  const closeViewer = () => {
+    viewer.classList.remove('is-open');
+    document.body.classList.remove('modal-open');
+    vTrack.innerHTML = '';
+    vItems = [];
+  };
+
+  $('#viewerClose').addEventListener('click', closeViewer);
+  vPrev.addEventListener('click', () => vGo(vIndex - 1));
+  vNext.addEventListener('click', () => vGo(vIndex + 1));
+  viewer.addEventListener('click', (e) => { if (e.target === viewer || e.target === vStage) closeViewer(); });
+  document.addEventListener('keydown', (e) => {
+    if (!viewer.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeViewer();
+    else if (e.key === 'ArrowLeft') vGo(vIndex - 1);
+    else if (e.key === 'ArrowRight') vGo(vIndex + 1);
+  });
+
+  // --- swipe ---
+  let sx = 0, sy = 0, dx = 0, swiping = false, locked = null;
+  vStage.addEventListener('pointerdown', (e) => {
+    swiping = true; locked = null; dx = 0;
+    sx = e.clientX; sy = e.clientY;
+    vTrack.classList.add('no-anim');
+  });
+  vStage.addEventListener('pointermove', (e) => {
+    if (!swiping) return;
+    const mx = e.clientX - sx;
+    const my = e.clientY - sy;
+    if (locked === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) locked = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+    if (locked !== 'x') return;
+    dx = mx;
+    const w = vStage.clientWidth || 1;
+    let pct = (dx / w) * 100;
+    // resist at the ends
+    if ((vIndex === 0 && pct > 0) || (vIndex === vItems.length - 1 && pct < 0)) pct *= 0.3;
+    vTrack.style.transform = `translateX(${-vIndex * 100 + pct}%)`;
+  });
+  const endSwipe = () => {
+    if (!swiping) return;
+    swiping = false;
+    const w = vStage.clientWidth || 1;
+    if (locked === 'x' && Math.abs(dx) > Math.min(70, w * 0.18)) vGo(vIndex + (dx < 0 ? 1 : -1));
+    else vRender(true);
+    dx = 0; locked = null;
+  };
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => vStage.addEventListener(t, endSwipe));
+
+  // --- open the viewer from a template card: every design, swipeable ---
+  const templateItems = () => templates.map((t, i) => ({
+    html: `<div class="viewer-frame">${cvHTML(t, i)}</div>`,
+    title: `Template #${i + 1}`,
+    wa: `Hi ApexCV! I'd like Template #${i + 1} (${t.role} layout) for my CV.`
+  }));
   [tplTrack, tplMore].forEach((box) => box.addEventListener('click', (e) => {
     const card = e.target.closest('.tpl-card');
-    if (card) openTemplate(Number(card.dataset.i));
+    if (card) openViewer(templateItems(), Number(card.dataset.i), 'Use this template');
   }));
-  $('#tplClose').addEventListener('click', () => modal.close());
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
-  modal.addEventListener('close', () => document.body.classList.remove('modal-open'));
 
   /* =========================================================
      BEFORE / AFTER SLIDER
@@ -2095,6 +2310,23 @@ body.modal-open { overflow: hidden; }
     shootToggle.setAttribute('aria-expanded', String(opening));
     shootLabel.textContent = opening ? 'Show Less' : 'Show More';
   });
+
+  /* Shoots open in the same swipeable, zoom-locked viewer */
+  const shootItems = () => Array.from({ length: SHOOT_COUNT }, (_, i) => ({
+    html: `<div class="viewer-frame viewer-frame-photo">
+             <span class="shoot-ph"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg></span>
+             <img src="assets/shoots/shoot-${i + 1}.jpg" alt="ApexCV brand photoshoot ${i + 1}"
+                  onerror="this.remove()">
+           </div>`,
+    title: `Shoot ${i + 1}`,
+    wa: 'Hi ApexCV! I saw your shoots and would like to book one.'
+  }));
+  shootGrid.addEventListener('click', (e) => {
+    const fig = e.target.closest('.shoot');
+    if (!fig) return;
+    openViewer(shootItems(), $$('.shoot', shootGrid).indexOf(fig), 'Book a shoot');
+  });
+  $$('.shoot', shootGrid).forEach((f) => { f.style.cursor = 'zoom-in'; });
 
   /* =========================================================
      STICKY MOBILE CTA — tuck away while pricing / footer are on screen
