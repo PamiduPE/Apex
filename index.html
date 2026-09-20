@@ -1267,14 +1267,31 @@ body.modal-open { overflow: hidden; }
       so even a video with a solid white background will look "background-less".
     -->
     <div class="hero-media" id="heroMedia">
-      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1">
-        
-        <source src="/tam.mp4" type="video/mp4">
-      </video>
-      <div class="video-fallback" aria-hidden="true">
-        <svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg>
-        <span>Add your hero video<br><small>assets/hero.webm · /tam.mp4</small></span>
-      </div>
+  <video
+    class="hero-video"
+    id="heroVideo"
+    autoplay
+    muted
+    loop
+    playsinline
+    webkit-playsinline
+    preload="metadata"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <source src="/tam.mp4" type="video/mp4">
+  </video>
+
+  <div class="video-fallback" aria-hidden="true">
+    <svg class="ic" aria-hidden="true">
+      <use href="#i-camera"></use>
+    </svg>
+    <span>
+      Add your hero video<br>
+      <small>assets/hero.webm · /tam.mp4</small>
+    </span>
+  </div>
+</div>
 
       <span class="float f-ats"><i class="tick"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-check"/></svg></i>98% ATS Score</span>
       <span class="float f-best">Best in LK</span>
