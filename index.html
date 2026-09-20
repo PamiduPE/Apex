@@ -352,13 +352,29 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chip-ic-ink { background: var(--ink); }
 .chip-ic-gold { background: var(--gold); }
 
-/* ---- Hero video ---- */
+/* ---- Hero video ----
+   FIX: mix-blend-mode is applied to a WRAPPER, never to the <video> element
+   itself. WebKit (every browser on iPhone/iPad) has long-standing bugs that
+   make a blended <video> render as a blank/black box. The wrapper is also
+   switched off entirely on iOS/Safari via the .no-blend class in JS.        */
 .hero-media {
   grid-column: 3;
   grid-row: 1;
   position: relative;
   min-height: 520px;
 }
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply; /* white pixels disappear into the white page */
+  pointer-events: none;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+/* iOS / Safari, or when the video already has a real alpha channel */
+.hero-media.no-blend .hero-video-wrap,
+.hero-media.has-alpha .hero-video-wrap { mix-blend-mode: normal; }
+
 .hero-video {
   position: absolute;
   inset: 0;
@@ -366,7 +382,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
-  mix-blend-mode: multiply; /* white pixels disappear into the white page */
   background: transparent;
   pointer-events: none;
 }
@@ -389,7 +404,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .video-fallback .ic { width: 34px; height: 34px; }
 .video-fallback small { font-weight: 500; font-size: 12px; opacity: 0.85; }
 .hero-media.no-video .video-fallback { display: flex; }
-.hero-media.no-video .hero-video { display: none; }
+.hero-media.no-video .hero-video-wrap { display: none; }
 
 /* ---- Floating chips ---- */
 .float {
@@ -575,6 +590,7 @@ h2 {
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
 }
 .tpl-track::-webkit-scrollbar { display: none; }
 
@@ -1259,19 +1275,52 @@ body.modal-open { overflow: hidden; }
     </div>
 
     <!--
-      HERO VIDEO  — put your files in an /assets folder next to index.html:
-        assets/hero.mov   (HEVC + alpha, for Safari/iOS)      [optional]
-        assets/hero.webm  (VP9 + alpha transparency)          [recommended]
-        assets/hero.mp4   (plain H.264, white background)     [fallback]
-      The page behind the video is pure white and the video uses mix-blend-mode: multiply,
-      so even a video with a solid white background will look "background-less".
+      ============================================================
+      HERO VIDEO  —  iPhone/iPad fixes applied
+      ============================================================
+      1. mix-blend-mode now lives on .hero-video-wrap, never on <video>
+         (WebKit renders a blended <video> as a blank/black box).
+      2. JS adds .no-blend on iOS/Safari so blending is switched off there
+         completely. The page behind is pure white, so a white-background
+         video still looks fine.
+      3. playsinline + webkit-playsinline + muted + autoplay are ALL required
+         for iOS inline autoplay. Removing any one of them breaks it.
+      4. Source order matters: Safari picks the first type it supports.
+         Put the alpha-channel .mov (HEVC with alpha) first so iOS gets real
+         transparency and doesn't need blending at all.
+
+      Put your files in an /assets folder next to index.html:
+        assets/hero.mov   HEVC + alpha  → Safari / iOS (best result)
+        assets/hero.webm  VP9 + alpha   → Chrome / Firefox / Android
+        tam.mp4           plain H.264 on white → universal fallback
+
+      IMPORTANT — re-encode the mp4 for iOS with:
+        ffmpeg -i tam.mp4 -c:v libx264 -profile:v baseline -level 3.1 \
+               -pix_fmt yuv420p -movflags +faststart -an tam.mp4
+      Safari refuses 4:4:4 / 10-bit / High-4:4:4 H.264 and needs the moov
+      atom at the front of the file (+faststart) to start playing.
     -->
     <div class="hero-media" id="heroMedia">
-      <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1">
-        
-        <source src="/tam.mp4" type="video/mp4">
-      </video>
-     
+      <div class="hero-video-wrap" id="heroVideoWrap">
+        <video class="hero-video" id="heroVideo"
+               autoplay muted loop playsinline webkit-playsinline
+               preload="auto" disablepictureinpicture
+               aria-hidden="true" tabindex="-1">
+          <!-- Safari / iOS: HEVC with alpha (optional — delete if you don't have it) -->
+          <source src="assets/hero.mov" type="video/quicktime">
+          <!-- Chrome / Firefox / Android: VP9 with alpha (optional) -->
+          <source src="assets/hero.webm" type="video/webm">
+          <!-- Universal fallback: plain H.264 on a white background -->
+          <source src="tam.mp4" type="video/mp4">
+          <source src="/tam.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-fallback" aria-hidden="true">
+        <svg class="ic" aria-hidden="true"><use href="#i-file"/></svg>
+        Hero video
+        <small>Add assets/hero.webm or tam.mp4</small>
+      </div>
 
       <span class="float f-ats"><i class="tick"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-check"/></svg></i>98% ATS Score</span>
       <span class="float f-best">Best in LK</span>
@@ -1638,6 +1687,13 @@ body.modal-open { overflow: hidden; }
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
   };
 
+  /* ---------- Platform detection (used by the hero video fix) ---------- */
+  const ua = navigator.userAgent || '';
+  const isIOS = /iP(hone|od|ad)/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
+  const isWebKit = isIOS || isSafari;
+
   /* ---------- Footer year ---------- */
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -1667,7 +1723,7 @@ body.modal-open { overflow: hidden; }
   document.addEventListener('click', (e) => { if (!navWrap.contains(e.target)) closeMenu(); });
 
   /* =========================================================
-     LANGUAGE (EN / සිංහල / தமிழ்) — extend the dictionaries to translate more
+     LANGUAGE (EN / සිංහල / தமிழ்)
      ========================================================= */
   const I18N = {
     en: {
@@ -1746,29 +1802,73 @@ body.modal-open { overflow: hidden; }
   setLang(I18N[store.get('apexcv-lang')] ? store.get('apexcv-lang') : 'en');
 
   /* =========================================================
-     HERO VIDEO
+     HERO VIDEO — iOS / Safari safe
+     ---------------------------------------------------------
+     FIX 1: never blend the <video> itself. On WebKit we turn the wrapper's
+            mix-blend-mode off entirely (.no-blend) — the page behind is
+            white, so a white-background video still looks seamless.
+     FIX 2: muted must be set as a PROPERTY before play() on iOS, not just
+            as an attribute.
+     FIX 3: iOS can block autoplay in Low Power Mode; we retry play() on the
+            first user gesture and whenever the tab becomes visible again.
+     FIX 4: if a source with a real alpha channel loaded (.mov/.webm), we
+            mark .has-alpha so no blending is needed anywhere.
      ========================================================= */
   const media = $('#heroMedia');
   const video = $('#heroVideo');
+
   if (video && media) {
+    // FIX 1 — kill blending on every WebKit browser (all iPhone/iPad browsers)
+    if (isWebKit) media.classList.add('no-blend');
+
+    // FIX 2 — muted as a property, before any play attempt
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('muted', '');
+    video.playsInline = true;
+
     const fail = () => media.classList.add('no-video');
+    const ok = () => {
+      media.classList.remove('no-video');
+      // FIX 4 — alpha sources need no blend at all
+      const src = (video.currentSrc || '').toLowerCase();
+      if (src.endsWith('.mov') || src.endsWith('.webm')) media.classList.add('has-alpha');
+    };
+
+    video.addEventListener('loadeddata', ok);
+    video.addEventListener('canplay', ok);
+    video.addEventListener('error', fail);
     $$('source', video).forEach((src) => src.addEventListener('error', () => {
       if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail();
     }));
-    video.addEventListener('error', fail);
-    video.addEventListener('loadeddata', () => media.classList.remove('no-video'));
-    // If none of the sources could be loaded, show the placeholder
+
+    // If nothing at all could be loaded, show the placeholder
     setTimeout(() => {
       if (video.readyState === 0 && video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail();
-    }, 2500);
+    }, 4000);
 
-    video.muted = true;
+    // FIX 3 — robust play with retries
+    const tryPlay = () => {
+      if (reduceMotion) return;
+      const p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(() => { /* blocked — retry on gesture */ });
+    };
+
     if (reduceMotion) {
       video.removeAttribute('autoplay');
       video.pause();
     } else {
-      const p = video.play();
-      if (p && typeof p.catch === 'function') p.catch(() => { /* autoplay blocked — poster/first frame stays */ });
+      tryPlay();
+      // Safari sometimes needs an explicit load() after the sources are parsed
+      if (video.readyState === 0) { try { video.load(); } catch {} tryPlay(); }
+
+      ['touchstart', 'pointerdown', 'click', 'scroll'].forEach((evt) =>
+        window.addEventListener(evt, tryPlay, { once: true, passive: true }));
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && video.paused) tryPlay();
+      });
+      window.addEventListener('pageshow', tryPlay);
     }
   }
 
@@ -1821,9 +1921,6 @@ body.modal-open { overflow: hidden; }
 
   /* =========================================================
      TEMPLATES  (CSS-drawn CV mock-ups — swap for real images any time)
-     ---------------------------------------------------------
-     To use real template screenshots instead, add  img: 'assets/templates/1.jpg'
-     to a template object below and it will be shown instead of the mock-up.
      ========================================================= */
   const featured = [
     { name: 'Lorna Alvarado', role: 'Web Development', layout: 0, a: '#2b2b2b' },
@@ -2013,7 +2110,6 @@ body.modal-open { overflow: hidden; }
     watch.forEach((el) => io.observe(el));
   }
 })();
-
 </script>
 </body>
 </html>
