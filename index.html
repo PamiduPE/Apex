@@ -751,6 +751,8 @@ h2 {
   overflow: hidden;
   pointer-events: none;
 }
+/* Real photo, when present, sits above the CSS mock-up and hides it entirely */
+.ba-real-img { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; background: #fff; }
 .ba-tag {
   position: absolute;
   top: 16px;
@@ -1351,7 +1353,7 @@ body.modal-open { overflow: hidden; }
       <p class="lead" data-i18n="lead">Expert storytelling meets recruitment technology. We make sure your CV passes the bots — and impresses the humans. Crafted by recruiters, optimized by AI.</p>
 
       <div class="hero-cta">
-        <a class="btn btn-plum" href="/buildcv.html"><span data-i18n="btn_build">Build My CV</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-plum" href="build-cv.html"><span data-i18n="btn_build">Build My CV</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <a class="btn btn-gold" href="#designs" id="heroDesignsBtn"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-grid"/></svg><span data-i18n="btn_designs">Our Designs</span></a>
       </div>
 
@@ -1492,6 +1494,7 @@ body.modal-open { overflow: hidden; }
       <div class="ba" id="ba" style="--pos:50%">
         <div class="ba-layer ba-after-layer">
           <div class="ba-page">
+            <img class="ba-real-img" src="assets/cv-after.jpg" alt="A real ApexCV-rewritten CV, ATS optimized" onerror="this.remove()">
             <div class="cv" style="--a:#4a1a4c"><div class="cv-after">
               <div class="cva-head">
                 <h4>Ravindu Perera</h4>
@@ -1516,6 +1519,7 @@ body.modal-open { overflow: hidden; }
 
         <div class="ba-layer ba-before-layer">
           <div class="ba-page">
+            <img class="ba-real-img" src="assets/cv-before.jpg" alt="A cluttered, ATS-unfriendly CV before ApexCV" onerror="this.remove()">
             <div class="cv"><div class="cv-before">
               <div class="cvb-head">
                 <div class="cvb-photo"><svg aria-hidden="true"><use href="#i-person"/></svg></div>
@@ -2260,12 +2264,16 @@ body.modal-open { overflow: hidden; }
   }));
 
   /* =========================================================
-     BEFORE / AFTER SLIDER
+     BEFORE / AFTER SLIDER — auto-slides back and forth, draggable
      ========================================================= */
   const ba = $('#ba');
   const handle = $('#baHandle');
   let pos = 50;
   let dragging = false;
+  let baDirection = 1; // 1 = sliding right, -1 = sliding left
+  let baPausedUntil = 0;
+  const BA_MIN = 12, BA_MAX = 88, BA_SPEED = 0.3; // % per animation frame
+
   const setPos = (p) => {
     pos = Math.min(100, Math.max(0, p));
     ba.style.setProperty('--pos', pos + '%');
@@ -2275,20 +2283,36 @@ body.modal-open { overflow: hidden; }
     const r = ba.getBoundingClientRect();
     setPos(((e.clientX - r.left) / r.width) * 100);
   };
+  const pauseAutoSlide = () => { baPausedUntil = performance.now() + 1800; };
+
   ba.addEventListener('pointerdown', (e) => {
     dragging = true;
     ba.setPointerCapture(e.pointerId);
     posFromEvent(e);
   });
   ba.addEventListener('pointermove', (e) => { if (dragging) posFromEvent(e); });
-  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => ba.addEventListener(type, () => { dragging = false; }));
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => ba.addEventListener(type, () => { dragging = false; pauseAutoSlide(); }));
   handle.addEventListener('keydown', (e) => {
     const step = e.shiftKey ? 15 : 5;
-    if (e.key === 'ArrowLeft') { setPos(pos - step); e.preventDefault(); }
-    else if (e.key === 'ArrowRight') { setPos(pos + step); e.preventDefault(); }
-    else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
-    else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { setPos(pos - step); pauseAutoSlide(); e.preventDefault(); }
+    else if (e.key === 'ArrowRight') { setPos(pos + step); pauseAutoSlide(); e.preventDefault(); }
+    else if (e.key === 'Home') { setPos(0); pauseAutoSlide(); e.preventDefault(); }
+    else if (e.key === 'End') { setPos(100); pauseAutoSlide(); e.preventDefault(); }
   });
+
+  if (!reduceMotion) {
+    const baTick = (now) => {
+      if (!dragging && now > baPausedUntil) {
+        pos += BA_SPEED * baDirection;
+        if (pos >= BA_MAX) { pos = BA_MAX; baDirection = -1; }
+        else if (pos <= BA_MIN) { pos = BA_MIN; baDirection = 1; }
+        ba.style.setProperty('--pos', pos + '%');
+        handle.setAttribute('aria-valuenow', String(Math.round(pos)));
+      }
+      requestAnimationFrame(baTick);
+    };
+    requestAnimationFrame(baTick);
+  }
 
   /* =========================================================
      SHOOTS  — add photos as assets/shoots/shoot-1.jpg … shoot-8.jpg
