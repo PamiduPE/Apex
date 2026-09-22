@@ -4,11 +4,19 @@
    Upload this file to the SAME folder as buildcv.html (htdocs)
 ------------------------------------------------------------------- */
 
-// MySQL details (from InfinityFree > MySQL Databases)
-const DB_HOST = 'sql208.infinityfree.com';
-const DB_NAME = 'if0_42930818_apexx';
-const DB_USER = 'if0_42930818';
-const DB_PASS = '4628zAiFLJ2';
+// MySQL details — Wasmer auto-injects DB_HOST / DB_PORT / DB_NAME / DB_USERNAME / DB_PASSWORD
+// as environment variables when it detects your app needs a database. We use those first,
+// and fall back to the values below (from the dashboard screenshot) if they aren't set.
+const DB_HOST_FALLBACK = 'db.us-losa1.bengt.wasmernet.com';
+const DB_PORT_FALLBACK = '16751';
+const DB_NAME_FALLBACK = 'apex121';
+const DB_USER_FALLBACK = 'user_5bd3fcb2';
+const DB_PASS_FALLBACK = 'pw_srR20UDpuVf3tJ3Ap4wP0JdKbGzzex13';
+
+function db_setting(string $env, string $fallback): string {
+    $v = getenv($env);
+    return ($v !== false && $v !== '') ? $v : $fallback;
+}
 
 // Password to open view.php  -> CHANGE THIS
 const VIEW_PASSWORD = 'ChangeMe123';
@@ -22,10 +30,16 @@ function db(): PDO {
     static $pdo = null;
     if ($pdo) return $pdo;
 
+    $host = db_setting('DB_HOST', DB_HOST_FALLBACK);
+    $port = db_setting('DB_PORT', DB_PORT_FALLBACK);
+    $name = db_setting('DB_NAME', DB_NAME_FALLBACK);
+    $user = db_setting('DB_USERNAME', DB_USER_FALLBACK);
+    $pass = db_setting('DB_PASSWORD', DB_PASS_FALLBACK);
+
     $pdo = new PDO(
-        'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
-        DB_USER,
-        DB_PASS,
+        'mysql:host=' . $host . ';port=' . $port . ';dbname=' . $name . ';charset=utf8mb4',
+        $user,
+        $pass,
         [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
