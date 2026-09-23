@@ -2,21 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Zoom locked: maximum-scale + user-scalable=no (plus JS gesture blocking below) -->
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>ApexCV — ATS-Friendly CV Writing Service in Sri Lanka</title>
   <meta name="description" content="ApexCV writes ATS-friendly CVs that pass the bots and impress recruiters. 2,700+ careers transformed. 1 hour average response.">
   <meta name="theme-color" content="#4a1a4c">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='32' fill='%234a1a4c'/><text x='32' y='44' font-size='34' font-weight='700' text-anchor='middle' fill='white' font-family='Arial,sans-serif'>A</text></svg>">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;800&family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-/* =========================================================
-   ApexCV — style.css
-   ========================================================= */
-
 :root {
   --plum: #4a1a4c;
   --plum-deep: #2f0f31;
@@ -35,26 +29,21 @@
   --red: #e0474c;
   --red-soft: #fdeeee;
   --wa: #25d366;
-
   --font: "Inter", "Noto Sans Sinhala", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --container: 1215px;
   --shadow-sm: 0 6px 20px -10px rgba(47, 15, 49, 0.22);
   --shadow-md: 0 20px 50px -24px rgba(47, 15, 49, 0.35);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-
 *, *::before, *::after { box-sizing: border-box; }
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 92px;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* no pinch-zoom, no double-tap zoom anywhere on the site */
   touch-action: manipulation;
   -ms-touch-action: manipulation;
 }
-
 body {
   margin: 0;
   font-family: var(--font);
@@ -65,39 +54,22 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
 img, svg, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; margin: 0; padding: 0; }
 h1, h2, h3, h4, p { margin: 0; }
 button { font: inherit; color: inherit; cursor: pointer; }
-
-:focus-visible {
-  outline: 3px solid rgba(74, 26, 76, 0.4);
-  outline-offset: 3px;
-  border-radius: 8px;
-}
-
+:focus-visible { outline: 3px solid rgba(74, 26, 76, 0.4); outline-offset: 3px; border-radius: 8px; }
 .ic { width: 20px; height: 20px; flex: none; }
 .ic-sm { width: 16px; height: 16px; }
 .ic-xs { width: 12px; height: 12px; }
-
 .container { width: min(100% - 40px, var(--container)); margin-inline: auto; }
 
-/* ---------- Buttons ---------- */
+/* Buttons */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 48px;
-  padding: 0 24px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; padding: 0 24px; border: 1px solid transparent; border-radius: 999px;
+  font-size: 15px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap;
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s, color 0.2s, border-color 0.2s;
 }
 .btn:hover { transform: translateY(-2px); }
@@ -110,693 +82,198 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn-outline:hover { border-color: var(--plum); color: var(--plum); }
 .btn-light { background: #fff; color: var(--plum); }
 .btn-light:hover { background: var(--gold-soft); }
-/* Secondary hero button — solid gold so it reads clearly on white */
-.btn-gold {
-  background: var(--gold);
-  color: var(--plum-deep);
-  border-color: var(--gold);
-  box-shadow: 0 12px 26px -12px rgba(201, 153, 107, 0.9);
-}
+.btn-gold { background: var(--gold); color: var(--plum-deep); border-color: var(--gold); box-shadow: 0 12px 26px -12px rgba(201, 153, 107, 0.9); }
 .btn-gold:hover { background: #b9854f; border-color: #b9854f; color: #fff; }
 .btn-block { width: 100%; }
 
-/* =========================================================
-   NAV
-   ========================================================= */
-.nav-wrap {
-  position: fixed;
-  top: 16px;
-  left: 0;
-  right: 0;
-  z-index: 60;
-  padding-inline: 16px;
-  pointer-events: none;
-}
+/* NAV */
+.nav-wrap { position: fixed; top: 16px; left: 0; right: 0; z-index: 60; padding-inline: 16px; pointer-events: none; }
 .nav {
-  pointer-events: auto;
-  max-width: var(--container);
-  margin-inline: auto;
-  height: 58px;
-  padding: 0 10px 0 18px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: rgba(255, 255, 255, 0.86);
-  -webkit-backdrop-filter: saturate(1.5) blur(14px);
-  backdrop-filter: saturate(1.5) blur(14px);
-  border: 1px solid rgba(20, 17, 20, 0.07);
-  border-radius: 999px;
-  box-shadow: 0 8px 30px -14px rgba(47, 15, 49, 0.2);
-  transition: box-shadow 0.25s;
+  pointer-events: auto; max-width: var(--container); margin-inline: auto; height: 58px;
+  padding: 0 10px 0 18px; display: flex; align-items: center; gap: 24px;
+  background: rgba(255,255,255,0.86); -webkit-backdrop-filter: saturate(1.5) blur(14px);
+  backdrop-filter: saturate(1.5) blur(14px); border: 1px solid rgba(20,17,20,0.07);
+  border-radius: 999px; box-shadow: 0 8px 30px -14px rgba(47,15,49,0.2); transition: box-shadow 0.25s;
 }
-.nav-wrap.scrolled .nav { box-shadow: 0 14px 40px -16px rgba(47, 15, 49, 0.35); }
-
+.nav-wrap.scrolled .nav { box-shadow: 0 14px 40px -16px rgba(47,15,49,0.35); }
 .brand { display: inline-flex; align-items: center; gap: 10px; }
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--plum);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-}
+.brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--plum); color: #fff; font-size: 15px; font-weight: 700; }
 .brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); }
-.brand-tag {
-  margin-left: 4px;
-  padding: 4px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--cream);
-  color: var(--plum);
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
+.brand-tag { margin-left: 4px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--cream); color: var(--plum); font-size: 9.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
 .nav-links { flex: 1; display: flex; justify-content: center; gap: 32px; }
 .nav-links a { font-size: 14.5px; font-weight: 500; color: #5b5460; transition: color 0.2s; }
 .nav-links a:hover { color: var(--plum); }
-
 .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .nav-cta { height: 38px; padding: 0 18px; font-size: 14px; }
-
 .lang { position: relative; }
-.lang-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 38px;
-  padding: 0 12px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--ink);
-}
+.lang-btn { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 12px; background: #fff; border: 1px solid var(--line); border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--ink); }
 .lang-btn sup { font-size: 9px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); margin-left: -2px; }
 .lang-chev { opacity: 0.6; }
-.lang-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  min-width: 150px;
-  padding: 6px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: var(--shadow-md);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: opacity 0.18s, transform 0.18s var(--ease), visibility 0.18s;
-  z-index: 5;
-}
+.lang-menu { position: absolute; top: calc(100% + 10px); right: 0; min-width: 150px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s, transform 0.18s var(--ease), visibility 0.18s; z-index: 5; }
 .lang.open .lang-menu { opacity: 1; visibility: visible; transform: none; }
-.lang-menu button {
-  display: block;
-  width: 100%;
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 12px;
-  background: none;
-  text-align: left;
-  font-size: 14px;
-  font-weight: 500;
-}
+.lang-menu button { display: block; width: 100%; padding: 10px 14px; border: 0; border-radius: 12px; background: none; text-align: left; font-size: 14px; font-weight: 500; }
 .lang-menu button:hover { background: var(--cream); }
 .lang-menu button[aria-current="true"] { color: var(--plum); font-weight: 700; background: var(--plum-soft); }
-
-.burger {
-  display: none;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--ink);
-  color: #fff;
-}
-
-.mobile-menu {
-  pointer-events: auto;
-  display: none;
-  max-width: var(--container);
-  margin: 8px auto 0;
-  padding: 10px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  box-shadow: var(--shadow-md);
-}
+.burger { display: none; place-items: center; width: 42px; height: 42px; border: 0; border-radius: 50%; background: var(--ink); color: #fff; }
+.mobile-menu { pointer-events: auto; display: none; max-width: var(--container); margin: 8px auto 0; padding: 10px; background: #fff; border: 1px solid var(--line); border-radius: 26px; box-shadow: var(--shadow-md); }
 .mobile-menu a { display: block; padding: 14px 16px; border-radius: 16px; font-size: 16px; font-weight: 600; color: var(--ink); }
 .mobile-menu a:hover { background: var(--cream); }
 .nav-wrap.open .mobile-menu { display: block; }
 
-/* =========================================================
-   HERO
-   ========================================================= */
+/* HERO */
 .hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(20px, 1fr) minmax(0, 600px) minmax(0, 600px) minmax(20px, 1fr);
-  grid-template-rows: 1fr auto;
-  min-height: max(700px, 100svh);
-  padding-top: 92px;
-  background: #fff; /* pure white so the video blends in */
-  overflow: hidden;
+  position: relative; display: grid;
+  grid-template-columns: minmax(20px,1fr) minmax(0,600px) minmax(0,600px) minmax(20px,1fr);
+  grid-template-rows: 1fr auto; min-height: max(700px,100svh); padding-top: 92px;
+  background: #fff; overflow: hidden;
 }
-
-.hero-copy {
-  grid-column: 2;
-  grid-row: 1;
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 24px 24px 56px 0;
-}
-
-.badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--plum);
-}
-.live-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #62d8a2;
-  box-shadow: 0 0 0 0 rgba(98, 216, 162, 0.6);
-  animation: ping 2.4s ease-out infinite;
-}
-@keyframes ping {
-  0% { box-shadow: 0 0 0 0 rgba(98, 216, 162, 0.55); }
-  80%, 100% { box-shadow: 0 0 0 8px rgba(98, 216, 162, 0); }
-}
-
-.hero-title {
-  margin-top: 28px;
-  font-size: clamp(2.9rem, 4.6vw, 4rem);
-  line-height: 0.96;
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  color: var(--ink);
-}
+.hero-copy { grid-column: 2; grid-row: 1; align-self: center; display: flex; flex-direction: column; align-items: flex-start; padding: 24px 24px 56px 0; }
+.badge-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 12.5px; font-weight: 600; color: var(--plum); }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: #62d8a2; box-shadow: 0 0 0 0 rgba(98,216,162,0.6); animation: ping 2.4s ease-out infinite; }
+@keyframes ping { 0%{box-shadow:0 0 0 0 rgba(98,216,162,0.55)} 80%,100%{box-shadow:0 0 0 8px rgba(98,216,162,0)} }
+.hero-title { margin-top: 28px; font-size: clamp(2.9rem,4.6vw,4rem); line-height: 0.96; font-weight: 800; letter-spacing: -0.045em; color: var(--ink); }
 .h1-a, .h1-b { display: block; }
 .h1-line { display: block; }
-.hl {
-  width: fit-content;
-  background: linear-gradient(transparent 64%, var(--gold-soft) 64%, var(--gold-soft) 94%, transparent 94%);
-}
+.hl { width: fit-content; background: linear-gradient(transparent 64%, var(--gold-soft) 64%, var(--gold-soft) 94%, transparent 94%); }
 .h1-b { color: var(--plum); }
-
-.lead {
-  max-width: 520px;
-  margin-top: 26px;
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--muted);
-}
-
+.lead { max-width: 520px; margin-top: 26px; font-size: 17px; line-height: 1.65; color: var(--muted); }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 .hero-cta .btn { height: 50px; }
-
-.trust {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 22px;
-  font-size: 13px;
-  color: var(--muted);
-}
+.trust { display: flex; align-items: center; gap: 10px; margin-top: 22px; font-size: 13px; color: var(--muted); }
 .avatars { display: inline-flex; }
-.av {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  font-style: normal;
-  font-size: 9px;
-  font-weight: 700;
-  color: #fff;
-}
+.av { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; font-style: normal; font-size: 9px; font-weight: 700; color: #fff; }
 .avatars .av + .av { margin-left: -8px; }
 .av-plum { background: var(--plum); }
 .av-ink { background: var(--ink); }
 .av-gold { background: var(--gold); }
-
 .hero-chips { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 26px; font-size: 13.5px; font-weight: 600; color: var(--ink); }
 .hero-chips li { display: inline-flex; align-items: center; gap: 10px; }
 .chip-ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: #fff; }
 .chip-ic-ink { background: var(--ink); }
 .chip-ic-gold { background: var(--gold); }
-
-/* ---- Hero video ----
-   FIX: mix-blend-mode is applied to a WRAPPER, never to the <video> element
-   itself. WebKit (every browser on iPhone/iPad) has long-standing bugs that
-   make a blended <video> render as a blank/black box. The wrapper is also
-   switched off entirely on iOS/Safari via the .no-blend class in JS.        */
-.hero-media {
-  grid-column: 3;
-  grid-row: 1;
-  position: relative;
-  min-height: 520px;
-}
-.hero-video-wrap {
-  position: absolute;
-  inset: 0;
-  mix-blend-mode: multiply; /* white pixels disappear into the white page */
-  pointer-events: none;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-/* iOS / Safari, or when the video already has a real alpha channel */
-.hero-media.no-blend .hero-video-wrap,
-.hero-media.has-alpha .hero-video-wrap { mix-blend-mode: normal; }
-
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
-  background: transparent;
-  pointer-events: none;
-}
-.video-fallback {
-  position: absolute;
-  inset: 8% 14% 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 1.5px dashed #ddd0c8;
-  border-bottom: 0;
-  border-radius: 200px 200px 0 0;
-  color: #b9aaa2;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-}
+.hero-media { grid-column: 3; grid-row: 1; position: relative; min-height: 520px; }
+.hero-video-wrap { position: absolute; inset: 0; mix-blend-mode: multiply; pointer-events: none; -webkit-transform: translateZ(0); transform: translateZ(0); }
+.hero-media.no-blend .hero-video-wrap, .hero-media.has-alpha .hero-video-wrap { mix-blend-mode: normal; }
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; background: transparent; pointer-events: none; }
+.video-fallback { position: absolute; inset: 8% 14% 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border: 1.5px dashed #ddd0c8; border-bottom: 0; border-radius: 200px 200px 0 0; color: #b9aaa2; text-align: center; font-size: 14px; font-weight: 600; }
 .video-fallback .ic { width: 34px; height: 34px; }
 .video-fallback small { font-weight: 500; font-size: 12px; opacity: 0.85; }
 .hero-media.no-video .video-fallback { display: flex; }
 .hero-media.no-video .hero-video-wrap { display: none; }
-
-/* ---- Floating chips ---- */
-.float {
-  position: absolute;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 15px;
-  border-radius: 999px;
-  background: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--plum);
-  white-space: nowrap;
-  box-shadow: 0 12px 30px -12px rgba(47, 15, 49, 0.3), 0 0 0 1px rgba(20, 17, 20, 0.04);
-  animation: bob 6s ease-in-out infinite;
-}
-.tick {
-  display: grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--green);
-  color: #fff;
-}
+.float { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 600; color: var(--plum); white-space: nowrap; box-shadow: 0 12px 30px -12px rgba(47,15,49,0.3), 0 0 0 1px rgba(20,17,20,0.04); animation: bob 6s ease-in-out infinite; }
+.tick { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--green); color: #fff; }
 .tick-plum { background: var(--plum); }
-.tick-light { background: rgba(255, 255, 255, 0.2); }
+.tick-light { background: rgba(255,255,255,0.2); }
 .f-ats { top: 12%; left: 4%; }
 .f-best { top: 29%; left: 8%; animation-delay: -2s; }
 .f-top { top: 32%; right: -2%; animation-delay: -4s; }
 .f-hired { bottom: 14%; left: 10%; background: #1f1a21; color: #fff; animation-delay: -1s; }
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-/* ---- Marquee ---- */
-.marquee {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  position: relative;
-  z-index: 3;
-  overflow: hidden;
-  background: var(--cream-2);
-  border-block: 1px solid var(--line);
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  padding-block: 14px;
-  animation: marquee 38s linear infinite;
-}
-.marquee-track span {
-  display: inline-flex;
-  align-items: center;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--plum);
-  white-space: nowrap;
-}
-.marquee-track span::after {
-  content: "";
-  width: 5px;
-  height: 5px;
-  margin-inline: 34px;
-  border-radius: 50%;
-  background: var(--gold);
-}
+@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+.marquee { grid-column: 1/-1; grid-row: 2; position: relative; z-index: 3; overflow: hidden; background: var(--cream-2); border-block: 1px solid var(--line); }
+.marquee-track { display: flex; width: max-content; padding-block: 14px; animation: marquee 38s linear infinite; }
+.marquee-track span { display: inline-flex; align-items: center; font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--plum); white-space: nowrap; }
+.marquee-track span::after { content: ""; width: 5px; height: 5px; margin-inline: 34px; border-radius: 50%; background: var(--gold); }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
-/* =========================================================
-   SECTIONS (shared)
-   ========================================================= */
-.section { padding: clamp(64px, 9vw, 112px) 0; background: var(--paper); }
+/* SECTIONS */
+.section { padding: clamp(64px,9vw,112px) 0; background: var(--paper); }
 .section-cream { background: var(--cream); }
-
 .sec-head { margin-bottom: 40px; }
 .sec-head-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .sec-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
 .sec-head-end { align-items: flex-end; }
-
-h2 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  line-height: 1.02;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-}
+h2 { font-size: clamp(2rem,4vw,3.2rem); line-height: 1.02; font-weight: 800; letter-spacing: -0.04em; color: var(--ink); }
 .eyebrow + h2 { margin-top: 14px; }
 .sec-sub { margin-top: 12px; font-size: 15px; color: var(--muted); }
 .sec-head-center h2 { max-width: 16ch; }
 .sec-head-center h2 + .sec-sub { max-width: 60ch; }
 #packages .sec-head-center h2 { max-width: none; }
 #results .sec-head-center h2 { max-width: 26ch; }
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--plum);
-}
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--plum); }
 .dot-plum { width: 6px; height: 6px; border-radius: 50%; background: var(--plum); }
 .dot-gold { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
 
-/* =========================================================
-   STATS
-   ========================================================= */
-.stats-wrap { padding: clamp(40px, 6vw, 72px) 0; background: #fff; }
-.stats-card {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: var(--plum);
-  border-radius: 32px;
-  color: #fff;
-  overflow: hidden;
-}
+/* STATS */
+.stats-wrap { padding: clamp(40px,6vw,72px) 0; background: #fff; }
+.stats-card { display: grid; grid-template-columns: repeat(3,1fr); background: var(--plum); border-radius: 32px; color: #fff; overflow: hidden; }
 .stat { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 230px; padding: 34px 38px; }
-.stat + .stat { border-left: 1px solid rgba(255, 255, 255, 0.12); }
-.stat-ic {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--gold);
-}
+.stat + .stat { border-left: 1px solid rgba(255,255,255,0.12); }
+.stat-ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: rgba(255,255,255,0.1); color: var(--gold); }
 .stat-body { display: flex; flex-direction: column; gap: 6px; }
-.stat-body strong { font-size: clamp(2.8rem, 5vw, 4.4rem); line-height: 1; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-.stat-body span { font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.62); }
+.stat-body strong { font-size: clamp(2.8rem,5vw,4.4rem); line-height: 1; font-weight: 700; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.stat-body span { font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.62); }
 
-/* =========================================================
-   TEMPLATES
-   ========================================================= */
+/* TEMPLATES */
 .tpl-controls { display: flex; align-items: center; gap: 10px; }
 .tpl-hint { display: inline-flex; align-items: center; gap: 6px; margin-right: 6px; font-size: 12.5px; color: var(--muted); }
-.round-btn {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
-  transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.2s var(--ease);
-}
+.round-btn { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--ink); transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.2s var(--ease); }
 .round-btn:hover { transform: scale(1.06); }
 .round-btn-ink { background: var(--ink); color: #fff; border-color: var(--ink); }
 .round-btn:disabled { opacity: 0.35; cursor: default; transform: none; }
-
 .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-.filter {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fff;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
+.filter { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 12.5px; font-weight: 600; color: var(--muted); }
 .filter-on { background: var(--plum); border-color: var(--plum); color: #fff; }
-
-.tpl-track {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding-bottom: 6px;
-  -webkit-overflow-scrolling: touch;
-}
+.tpl-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
 .tpl-track::-webkit-scrollbar { display: none; }
-
-.tpl-card {
-  flex: 0 0 calc((100% - 60px) / 4);
-  scroll-snap-align: start;
-  padding: 0;
-  border: 0;
-  background: none;
-  text-align: left;
-}
-.tpl-thumb {
-  position: relative;
-  aspect-ratio: 210 / 297;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-}
+.tpl-card { flex: 0 0 calc((100% - 60px) / 4); scroll-snap-align: start; padding: 0; border: 0; background: none; text-align: left; }
+.tpl-thumb { position: relative; aspect-ratio: 210/297; border: 1px solid var(--line); border-radius: 16px; background: #fff; overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 .tpl-card:hover .tpl-thumb { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.tpl-num {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: var(--plum);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-}
+/* Real CV image fills the thumb */
+.tpl-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.tpl-num { position: absolute; top: 10px; left: 10px; z-index: 2; padding: 3px 9px; border-radius: 999px; background: var(--plum); color: #fff; font-size: 11px; font-weight: 700; }
 .tpl-meta { display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: var(--muted); }
 .tpl-meta b { font-weight: 600; color: var(--text); }
 .tpl-meta i { font-style: normal; font-size: 12px; font-weight: 600; color: var(--green); }
-
 .tpl-more-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 36px; }
 .tpl-count { font-size: 12px; color: var(--muted); }
-
-.tpl-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px 20px;
-  margin-top: 40px;
-}
+.tpl-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px 20px; margin-top: 40px; }
 .tpl-grid[hidden] { display: none; }
 .tpl-grid .tpl-card { flex: none; }
 
-/* ---------- Mini CV mock-ups (scale with container width) ---------- */
-.cv {
-  container-type: inline-size;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #fff;
-  color: var(--text);
-  font-family: var(--font);
-  text-align: left;
-  --a: #2b2b2b;
-}
+/* BEFORE/AFTER */
+.cv { container-type: inline-size; position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; color: var(--text); font-family: var(--font); text-align: left; --a: #2b2b2b; }
 .cv h4 { font-size: 6.6cqw; line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
 .cv p { margin-top: 0.8cqw; font-size: 3.1cqw; color: #6f6673; }
-.cv-ph {
-  display: grid;
-  place-items: end center;
-  flex: none;
-  width: 15cqw;
-  height: 15cqw;
-  border-radius: 50%;
-  background: #e9e0e8;
-  color: #b9abb8;
-  overflow: hidden;
-}
+.cv-ph { display: grid; place-items: end center; flex: none; width: 15cqw; height: 15cqw; border-radius: 50%; background: #e9e0e8; color: #b9abb8; overflow: hidden; }
 .cv-ph svg { width: 82%; height: 82%; }
 .cv-h { display: block; margin-bottom: 1.6cqw; font-size: 2.7cqw; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--a); }
 .cv-sec { margin-bottom: 4.2cqw; }
 .ln { display: block; height: 1.5cqw; margin: 1.5cqw 0; border-radius: 1cqw; background: #dcd6dd; }
-
-/* CV mock-ups always fill their frame */
 .tpl-thumb > .cv, .viewer-frame > .cv, .ba-page > .cv { position: absolute; inset: 0; }
-
-/* inner sheets fill the container (cqw units must live on descendants of .cv) */
 .cv-0, .cv-1, .cv-2, .cv-3, .cv-after, .cv-before { height: 100%; }
-
-/* layout 0: light sidebar */
 .cv-0 { padding: 6cqw; display: flex; flex-direction: column; gap: 4cqw; }
 .cv-0 .cv-top { display: flex; align-items: center; gap: 3.6cqw; padding-bottom: 4cqw; border-bottom: 0.6cqw solid var(--a); }
 .cv-0 .cv-body { display: grid; grid-template-columns: 33% 1fr; gap: 5cqw; }
-
-/* layout 1: dark sidebar */
 .cv-1 { display: grid; grid-template-columns: 36% 1fr; }
 .cv-1 .cv-side { padding: 7cqw 4.6cqw; background: var(--a); color: #fff; }
 .cv-1 .cv-side .cv-h { color: #fff; opacity: 0.92; }
-.cv-1 .cv-side .ln { background: rgba(255, 255, 255, 0.34); }
-.cv-1 .cv-ph { width: 20cqw; height: 20cqw; margin: 0 auto 6cqw; background: rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.72); }
+.cv-1 .cv-side .ln { background: rgba(255,255,255,0.34); }
+.cv-1 .cv-ph { width: 20cqw; height: 20cqw; margin: 0 auto 6cqw; background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.72); }
 .cv-1 .cv-main { padding: 8cqw 5cqw; }
 .cv-1 .cv-main h4 { margin-bottom: 1cqw; }
 .cv-1 .cv-main .cv-title { margin-bottom: 6cqw; }
-
-/* layout 2: colour banner */
 .cv-2 .cv-banner { display: flex; align-items: center; gap: 4cqw; padding: 6.5cqw; background: var(--a); color: #fff; }
-.cv-2 .cv-banner p { color: rgba(255, 255, 255, 0.78); }
-.cv-2 .cv-banner .cv-ph { width: 17cqw; height: 17cqw; background: rgba(255, 255, 255, 0.22); color: rgba(255, 255, 255, 0.75); }
+.cv-2 .cv-banner p { color: rgba(255,255,255,0.78); }
+.cv-2 .cv-banner .cv-ph { width: 17cqw; height: 17cqw; background: rgba(255,255,255,0.22); color: rgba(255,255,255,0.75); }
 .cv-2 .cv-body { display: grid; grid-template-columns: 1fr 34%; gap: 5cqw; padding: 5.5cqw 6cqw; }
-
-/* layout 3: dark header + tinted rail */
 .cv-3 .cv-top { display: flex; align-items: center; gap: 4cqw; padding: 6cqw; background: #14213d; color: #fff; }
-.cv-3 .cv-top p { color: rgba(255, 255, 255, 0.72); }
+.cv-3 .cv-top p { color: rgba(255,255,255,0.72); }
 .cv-3 .cv-top .cv-ph { width: 16cqw; height: 16cqw; border: 0.7cqw solid var(--a); }
 .cv-3 .cv-body { display: grid; grid-template-columns: 33% 1fr; }
 .cv-3 .cv-side { padding: 5cqw 4.2cqw; background: color-mix(in srgb, var(--a) 12%, #fff); min-height: 120cqw; }
 .cv-3 .cv-main { padding: 5cqw; }
-
-/* ---------- Before / After ---------- */
-.ba {
-  position: relative;
-  max-width: 780px;
-  aspect-ratio: 16 / 11;
-  margin: 0 auto;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  overflow: hidden;
-  background: var(--cream-2);
-  touch-action: pan-y;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: ew-resize;
-  box-shadow: var(--shadow-md);
-}
+.ba { position: relative; max-width: 780px; aspect-ratio: 16/11; margin: 0 auto; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; background: var(--cream-2); touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize; box-shadow: var(--shadow-md); }
 .ba-layer { position: absolute; inset: 0; background: var(--cream-2); }
 .ba-before-layer { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
-.ba-page {
-  position: absolute;
-  top: 4%;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 92%;
-  aspect-ratio: 1 / 1.414;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 18px 40px -20px rgba(47, 15, 49, 0.4);
-  overflow: hidden;
-  pointer-events: none;
-}
-/* Real photo, when present, sits above the CSS mock-up and hides it entirely */
+.ba-page { position: absolute; top: 4%; left: 50%; transform: translateX(-50%); height: 92%; aspect-ratio: 1/1.414; background: #fff; border-radius: 6px; box-shadow: 0 18px 40px -20px rgba(47,15,49,0.4); overflow: hidden; pointer-events: none; }
 .ba-real-img { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; background: #fff; }
-.ba-tag {
-  position: absolute;
-  top: 16px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
+.ba-tag { position: absolute; top: 16px; z-index: 3; display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; pointer-events: none; }
 .ba-tag-before { left: 16px; background: #fff; color: var(--red); }
 .ba-tag-before i { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
 .ba-tag-after { right: 16px; background: var(--ink); color: #fff; }
-
-.ba-handle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--pos);
-  z-index: 4;
-  width: 48px;
-  transform: translateX(-50%);
-  cursor: ew-resize;
-  display: grid;
-  place-items: center;
-}
-.ba-handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(20, 17, 20, 0.12); }
-.ba-knob {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 10px 6px;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--plum);
-  box-shadow: 0 8px 24px -8px rgba(20, 17, 20, 0.5);
-}
-
+.ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); z-index: 4; width: 48px; transform: translateX(-50%); cursor: ew-resize; display: grid; place-items: center; }
+.ba-handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(20,17,20,0.12); }
+.ba-knob { position: relative; display: flex; align-items: center; gap: 0; padding: 10px 6px; border-radius: 999px; background: #fff; color: var(--plum); box-shadow: 0 8px 24px -8px rgba(20,17,20,0.5); }
 .ba-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 780px; margin: 20px auto 0; }
 .ba-note { display: flex; gap: 12px; padding: 16px 18px; border-radius: 18px; border: 1px solid; font-size: 13.5px; line-height: 1.5; }
 .ba-note strong { display: block; margin-bottom: 2px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -808,8 +285,6 @@ h2 {
 .ba-note-good { background: var(--green-soft); border-color: #c5ecd6; }
 .ba-note-good strong { color: var(--green); }
 .ba-note-good .note-ic { background: var(--green); }
-
-/* "After" CV (clean) */
 .cv-after { padding: 7cqw 8cqw; }
 .cva-head { padding-bottom: 4cqw; margin-bottom: 4.5cqw; border-bottom: 0.6cqw solid var(--a); }
 .cva-head h4 { font-size: 8cqw; color: var(--a); }
@@ -820,14 +295,12 @@ h2 {
 .cva-co { display: block; font-size: 2.7cqw; color: var(--a); font-weight: 600; }
 .cva-chips { display: flex; flex-wrap: wrap; gap: 1.6cqw; }
 .cva-chips span { padding: 1cqw 2.6cqw; border-radius: 99cqw; background: var(--plum-soft); color: var(--a); font-size: 2.6cqw; font-weight: 600; }
-
-/* "Before" CV (cluttered) */
-.cv-before { padding: 4cqw; background: #f6f2ec; font-family: Georgia, "Times New Roman", serif; }
+.cv-before { padding: 4cqw; background: #f6f2ec; font-family: Georgia,"Times New Roman",serif; }
 .cvb-head { display: flex; gap: 3cqw; padding: 3cqw; margin-bottom: 3cqw; background: #2aa79b; border: 0.8cqw dashed #f3b63f; }
 .cvb-photo { display: grid; place-items: end center; flex: none; width: 19cqw; height: 22cqw; background: #fff; border: 1cqw solid #ff8a3d; color: #b1b1b1; overflow: hidden; }
 .cvb-photo svg { width: 86%; height: 86%; }
 .cvb-title { color: #fff; }
-.cvb-title h4 { font-family: "Comic Sans MS", "Trebuchet MS", cursive; font-size: 6.2cqw; text-shadow: 0.5cqw 0.5cqw 0 #ff6b9a; }
+.cvb-title h4 { font-family: "Comic Sans MS","Trebuchet MS",cursive; font-size: 6.2cqw; text-shadow: 0.5cqw 0.5cqw 0 #ff6b9a; }
 .cvb-title h4 span { color: #ffe27a; }
 .cvb-title p { color: #fff; font-style: italic; }
 .cvb-icons { display: flex; gap: 1.4cqw; margin-top: 2.4cqw; }
@@ -842,7 +315,7 @@ h2 {
 .cvb-teal { background: #253b6e; }
 .cvb-teal b { color: #ffe27a; }
 .cvb-outline { border: 0.7cqw double #253b6e; }
-.bar { height: 1.9cqw; margin: 1.5cqw 0; background: rgba(255, 255, 255, 0.25); border-radius: 1cqw; overflow: hidden; }
+.bar { height: 1.9cqw; margin: 1.5cqw 0; background: rgba(255,255,255,0.25); border-radius: 1cqw; overflow: hidden; }
 .bar i { display: block; height: 100%; }
 .cvb-table { width: 100%; border-collapse: collapse; }
 .cvb-table td { height: 5cqw; border: 0.5cqw solid #b23a7a; background: #fff; }
@@ -850,22 +323,11 @@ h2 {
 .cvb-refs { display: grid; grid-template-columns: 1fr 1fr; gap: 2cqw; }
 .cv-before .ln { background: #cfc6bb; }
 
-/* =========================================================
-   REVIEWS
-   ========================================================= */
+/* REVIEWS */
 .rating { display: inline-flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; color: var(--muted); }
 .stars { color: var(--gold); letter-spacing: 2px; font-size: 14px; white-space: nowrap; }
-
-.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.review {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 28px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-}
+.review-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.review { display: flex; flex-direction: column; gap: 18px; padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: 24px; }
 .quote-ic { width: 28px; height: 28px; color: #eadbd0; }
 .review p { flex: 1; font-size: 15.5px; line-height: 1.65; color: var(--text); }
 .review footer { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid var(--line); }
@@ -875,19 +337,9 @@ h2 {
 .review footer div span { font-size: 12px; color: var(--muted); }
 .review .stars { font-size: 11px; letter-spacing: 1px; }
 
-/* =========================================================
-   PRICING
-   ========================================================= */
-.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; max-width: 1040px; margin: 0 auto; }
-.plan {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 32px 30px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-}
+/* PRICING */
+.price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: stretch; max-width: 1040px; margin: 0 auto; }
+.plan { display: flex; flex-direction: column; gap: 0; padding: 32px 30px; background: #fff; border: 1px solid var(--line); border-radius: 28px; }
 .plan-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .plan-head h3 { font-size: 15px; font-weight: 700; color: var(--ink); }
 .plan-tag { padding: 4px 10px; border-radius: 999px; background: var(--cream-2); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
@@ -900,274 +352,91 @@ h2 {
 .plan-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; flex: 1; }
 .plan-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--text); }
 .plan-list .ic { flex: none; box-sizing: content-box; padding: 4px; border-radius: 50%; background: var(--plum-soft); color: var(--plum); }
-
-.plan-featured {
-  margin-block: -18px;
-  padding-block: 50px;
-  background: var(--plum);
-  border: 2px solid var(--gold);
-  color: #fff;
-  box-shadow: 0 30px 70px -30px rgba(74, 26, 76, 0.75);
-}
+.plan-featured { margin-block: -18px; padding-block: 50px; background: var(--plum); border: 2px solid var(--gold); color: #fff; box-shadow: 0 30px 70px -30px rgba(74,26,76,0.75); }
 .plan-featured .plan-head h3, .plan-featured .plan-price strong { color: #fff; }
-.plan-featured .plan-price span, .plan-featured .plan-for { color: rgba(255, 255, 255, 0.7); }
-.plan-featured .plan-list li { color: rgba(255, 255, 255, 0.92); }
-.plan-featured .plan-list .ic { background: rgba(201, 153, 107, 0.25); color: var(--gold); }
-.plan-foot { margin-top: 14px; text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.plan-featured .plan-price span, .plan-featured .plan-for { color: rgba(255,255,255,0.7); }
+.plan-featured .plan-list li { color: rgba(255,255,255,0.92); }
+.plan-featured .plan-list .ic { background: rgba(201,153,107,0.25); color: var(--gold); }
+.plan-foot { margin-top: 14px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.6); }
 
-/* =========================================================
-   SHOOTS
-   ========================================================= */
-.shoot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.shoot {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: 22px;
-  overflow: hidden;
-  background: linear-gradient(160deg, #f6e6d8, #ead6e8);
-}
-.shoot-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(74, 26, 76, 0.28); }
+/* SHOOTS */
+.shoot-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.shoot { position: relative; aspect-ratio: 4/5; border-radius: 22px; overflow: hidden; background: linear-gradient(160deg,#f6e6d8,#ead6e8); }
+.shoot-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(74,26,76,0.28); }
 .shoot-ph .ic { width: 38px; height: 38px; }
 .shoot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
 .shoot:hover img { transform: scale(1.04); }
-.shoot-cap {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  font-size: 10.5px;
-  font-weight: 600;
-  color: var(--plum);
-}
+.shoot-cap { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.88); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 10.5px; font-weight: 600; color: var(--plum); }
 .shoot.is-extra[hidden] { display: none; }
 .center-row { display: flex; justify-content: center; margin-top: 36px; }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-.footer { padding: 72px 0 32px; background: var(--plum); color: rgba(255, 255, 255, 0.78); }
+/* FOOTER */
+.footer { padding: 72px 0 32px; background: var(--plum); color: rgba(255,255,255,0.78); }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; padding-bottom: 48px; }
 .brand-light .brand-name { color: #fff; }
 .brand-light .brand-mark { background: #fff; color: var(--plum); }
 .footer-brand p { max-width: 36ch; margin: 18px 0 20px; font-size: 14px; line-height: 1.7; }
-.footer-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
-}
+.footer-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,0.1); font-size: 12px; font-weight: 600; color: #fff; }
 .footer-col h3 { margin-bottom: 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
 .contact-list, .link-list { display: flex; flex-direction: column; gap: 14px; font-size: 14px; }
 .contact-list li, .contact-list a { display: flex; align-items: center; gap: 12px; }
-.c-ic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #fff; }
-.c-ic-wa { background: rgba(37, 211, 102, 0.22); color: #7df0ab; }
+.c-ic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
+.c-ic-wa { background: rgba(37,211,102,0.22); color: #7df0ab; }
 .footer a { transition: color 0.2s; }
 .footer a:hover { color: #fff; }
-.footer-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
-}
+.footer-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12px; color: rgba(255,255,255,0.55); }
 .footer-made { display: inline-flex; align-items: center; gap: 8px; }
 
-/* =========================================================
-   FLOATING ACTIONS + STICKY CTA
-   ========================================================= */
-.float-actions {
-  position: fixed;
-  right: 20px;
-  bottom: 24px;
-  z-index: 55;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.globe-btn, .wa-btn {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  transition: transform 0.2s var(--ease);
-}
+/* FLOAT ACTIONS + STICKY CTA */
+.float-actions { position: fixed; right: 20px; bottom: 24px; z-index: 55; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.globe-btn, .wa-btn { position: relative; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line); transition: transform 0.2s var(--ease); }
 .globe-btn:hover, .wa-btn:hover { transform: scale(1.07); }
 .globe-btn { background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
-.wa-btn { background: var(--wa); border-color: var(--wa); color: #fff; box-shadow: 0 14px 30px -10px rgba(37, 211, 102, 0.7); }
+.wa-btn { background: var(--wa); border-color: var(--wa); color: #fff; box-shadow: 0 14px 30px -10px rgba(37,211,102,0.7); }
 .wa-btn .ic { width: 28px; height: 28px; }
 .wa-dot { position: absolute; top: 2px; right: 2px; width: 10px; height: 10px; border-radius: 50%; background: #9df0c4; border: 2px solid #fff; }
 .lang-float .lang-menu { top: auto; bottom: calc(100% + 10px); right: 0; transform: translateY(6px); }
 .lang-float.open .lang-menu { transform: none; }
-
-.sticky-cta {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  z-index: 54;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 54px;
-  border-radius: 999px;
-  background: var(--plum);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0 18px 36px -14px rgba(47, 15, 49, 0.8);
-  transition: opacity 0.25s, transform 0.25s var(--ease);
-}
+.sticky-cta { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 54; display: none; align-items: center; justify-content: center; gap: 8px; height: 54px; border-radius: 999px; background: var(--plum); color: #fff; font-size: 16px; font-weight: 700; box-shadow: 0 18px 36px -14px rgba(47,15,49,0.8); transition: opacity 0.25s, transform 0.25s var(--ease); }
 .sticky-cta.is-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 
-/* =========================================================
-   VIEWER (swipeable lightbox — templates + shoots, zoom locked)
-   ========================================================= */
-.viewer {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: none;
-  flex-direction: column;
-  background: rgba(20, 17, 20, 0.94);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  /* pan-y only => horizontal swipe handled by us, pinch-zoom impossible */
-  touch-action: pan-y;
-  -webkit-user-select: none;
-  user-select: none;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
+/* VIEWER */
+.viewer { position: fixed; inset: 0; z-index: 200; display: none; flex-direction: column; background: rgba(20,17,20,0.94); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); touch-action: pan-y; -webkit-user-select: none; user-select: none; padding-top: env(safe-area-inset-top,0px); padding-bottom: env(safe-area-inset-bottom,0px); }
 .viewer.is-open { display: flex; animation: fadeIn 0.22s var(--ease); }
 @keyframes fadeIn { from { opacity: 0; } }
-
-.viewer-bar {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  color: #fff;
-}
+.viewer-bar { position: relative; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; color: #fff; }
 .viewer-title { display: flex; flex-direction: column; min-width: 0; }
 .viewer-title strong { font-size: 15px; font-weight: 700; }
-.viewer-title span { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
-.viewer-close {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  flex: none;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
+.viewer-title span { font-size: 12px; color: rgba(255,255,255,0.6); }
+.viewer-close { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border: 1px solid rgba(255,255,255,0.22); border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; }
 .viewer-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.viewer-track {
-  display: flex;
-  height: 100%;
-  will-change: transform;
-  transition: transform 0.32s var(--ease);
-}
+.viewer-track { display: flex; height: 100%; will-change: transform; transition: transform 0.32s var(--ease); }
 .viewer-track.no-anim { transition: none; }
-.viewer-slide {
-  flex: 0 0 100%;
-  display: grid;
-  place-items: center;
-  padding: 8px 18px 18px;
-  min-width: 0;
-}
-.viewer-frame {
-  position: relative;
-  height: 100%;
-  max-height: 100%;
-  aspect-ratio: 210 / 297;
-  max-width: 100%;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.7);
-  pointer-events: none; /* swipe passes through to the stage */
-}
-.viewer-frame-photo { aspect-ratio: 4 / 5; background: linear-gradient(160deg, #f6e6d8, #ead6e8); }
+.viewer-slide { flex: 0 0 100%; display: grid; place-items: center; padding: 8px 18px 18px; min-width: 0; }
+.viewer-frame { position: relative; height: 100%; max-height: 100%; aspect-ratio: 210/297; max-width: 100%; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 70px -24px rgba(0,0,0,0.7); pointer-events: none; }
+.viewer-frame-photo { aspect-ratio: 4/5; background: linear-gradient(160deg,#f6e6d8,#ead6e8); }
 .viewer-frame > .cv { position: absolute; inset: 0; }
-.viewer-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.viewer-frame .shoot-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(74, 26, 76, 0.28); }
+.viewer-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.viewer-frame .shoot-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(74,26,76,0.28); }
 .viewer-frame .shoot-ph .ic { width: 44px; height: 44px; }
-
-.viewer-nav {
-  position: absolute;
-  top: 50%;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  margin-top: -23px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 50%;
-  background: rgba(20, 17, 20, 0.6);
-  color: #fff;
-  transition: opacity 0.2s, background 0.2s;
-}
-.viewer-nav:hover { background: rgba(20, 17, 20, 0.9); }
+.viewer-nav { position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 46px; height: 46px; margin-top: -23px; border: 1px solid rgba(255,255,255,0.22); border-radius: 50%; background: rgba(20,17,20,0.6); color: #fff; transition: opacity 0.2s, background 0.2s; }
+.viewer-nav:hover { background: rgba(20,17,20,0.9); }
 .viewer-nav:disabled { opacity: 0.25; cursor: default; }
 .viewer-prev { left: 12px; }
 .viewer-next { right: 12px; }
-
-.viewer-foot {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 16px 18px;
-}
+.viewer-foot { position: relative; z-index: 4; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px 18px; }
 .viewer-dots { display: flex; align-items: center; gap: 6px; }
-.viewer-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: background 0.2s, transform 0.2s; }
+.viewer-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: background 0.2s, transform 0.2s; }
 .viewer-dots i.on { background: var(--gold); transform: scale(1.5); }
 .chip-ok { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 700; }
 
-@media (max-width: 860px) {
-  .viewer-nav { display: none; }
-  .viewer-slide { padding: 6px 12px 12px; }
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .brand-tag { display: none; }
   .nav-links { gap: 22px; }
   .tpl-card { flex-basis: calc((100% - 40px) / 3); }
-  .tpl-grid { grid-template-columns: repeat(3, 1fr); }
+  .tpl-grid { grid-template-columns: repeat(3,1fr); }
 }
-
 @media (max-width: 1024px) {
   .nav-links, .nav-cta { display: none; }
   .burger { display: grid; }
@@ -1176,92 +445,71 @@ h2 {
   .plan-featured { margin-block: 0; padding-block: 32px; }
   .review-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand { grid-column: 1/-1; }
 }
-
-/* ---- Mobile hero: video sits between the two halves of the headline ---- */
 @media (max-width: 860px) {
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding-top: 92px;
-  }
+  .hero { display: flex; flex-direction: column; align-items: center; min-height: 0; padding-top: 92px; }
   .hero-copy, .hero-title { display: contents; }
-
   .badge-pill { order: 1; margin-inline: 16px; padding: 8px 12px; text-align: center; font-size: 11.5px; }
-  .h1-a { order: 2; margin-top: 22px; padding-inline: 16px; text-align: center; font-size: clamp(2.3rem, 10.6vw, 3.4rem); line-height: 0.96; font-weight: 800; letter-spacing: -0.045em; color: var(--ink); }
+  .h1-a { order: 2; margin-top: 22px; padding-inline: 16px; text-align: center; font-size: clamp(2.3rem,10.6vw,3.4rem); line-height: 0.96; font-weight: 800; letter-spacing: -0.045em; color: var(--ink); }
   .h1-a .hl { margin-inline: auto; }
-  .hero-media { order: 3; width: 100%; height: min(112vw, 480px); min-height: 0; margin-top: 4px; }
+  .hero-media { order: 3; width: 100%; height: min(112vw,480px); min-height: 0; margin-top: 4px; }
   .marquee { order: 4; width: 100%; }
-  .h1-b { order: 5; margin-top: 30px; padding-inline: 16px; text-align: center; font-size: clamp(2.3rem, 10.6vw, 3.4rem); line-height: 0.96; font-weight: 800; letter-spacing: -0.045em; color: var(--plum); }
+  .h1-b { order: 5; margin-top: 30px; padding-inline: 16px; text-align: center; font-size: clamp(2.3rem,10.6vw,3.4rem); line-height: 0.96; font-weight: 800; letter-spacing: -0.045em; color: var(--plum); }
   .lead { order: 6; padding-inline: 20px; margin-top: 20px; text-align: center; font-size: 16px; }
   .hero-cta { order: 7; width: 100%; justify-content: center; padding-inline: 16px; }
   .trust { order: 8; width: 100%; justify-content: center; padding-inline: 16px; text-align: left; }
   .hero-chips { order: 9; width: 100%; justify-content: center; padding: 0 16px 40px; }
-
   .f-ats { top: 4%; left: auto; right: 4%; }
   .f-best { top: 22%; left: 6%; }
   .f-top { top: auto; bottom: 30%; right: 6%; }
   .f-hired { bottom: 8%; left: 8%; }
-
   .sticky-cta { display: flex; }
   .float-actions { right: 14px; bottom: 86px; }
   .globe-btn, .wa-btn { width: 50px; height: 50px; }
   .footer { padding-bottom: 96px; }
-
   .stats-card { grid-template-columns: 1fr; border-radius: 26px; }
   .stat { flex-direction: row; align-items: center; justify-content: space-between; min-height: 0; gap: 16px; padding: 22px 24px; }
-  .stat + .stat { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+  .stat + .stat { border-left: 0; border-top: 1px solid rgba(255,255,255,0.12); }
   .stat-body { align-items: flex-end; text-align: right; }
   .stat-body strong { font-size: 2.9rem; }
-
   .tpl-card { flex-basis: 66%; }
   .tpl-controls .tpl-hint { display: none; }
-  .tpl-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; }
-
-  .ba { aspect-ratio: 4 / 5; border-radius: 22px; }
+  .tpl-grid { grid-template-columns: repeat(2,1fr); gap: 20px 14px; }
+  .ba { aspect-ratio: 4/5; border-radius: 22px; }
   .ba-page { top: 10%; height: 88%; }
   .ba-tag { top: 12px; padding: 5px 10px; font-size: 10px; }
   .ba-tag-before { left: 12px; }
   .ba-tag-after { right: 12px; }
   .ba-notes { grid-template-columns: 1fr; }
-
-  .shoot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .shoot-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .viewer-nav { display: none; }
+  .viewer-slide { padding: 6px 12px 12px; }
 }
-
 @media (max-width: 560px) {
   .sec-head-row { align-items: flex-start; }
   .tpl-controls { width: 100%; justify-content: flex-end; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
   .footer-bar { flex-direction: column; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .marquee-track { animation: none; }
 }
-
-/* ---------- Utilities ---------- */
 [hidden] { display: none !important; }
 figure { margin: 0; }
 body.modal-open { overflow: hidden; }
-
-/* ---------- Sinhala / Tamil typography ---------- */
 :lang(si) h1, :lang(ta) h1, :lang(si) h2, :lang(ta) h2,
 :lang(si) .h1-a, :lang(ta) .h1-a, :lang(si) .h1-b, :lang(ta) .h1-b { letter-spacing: 0; line-height: 1.18; }
-:lang(si) .hero-title, :lang(ta) .hero-title { font-size: clamp(2.3rem, 3.6vw, 3.2rem); }
+:lang(si) .hero-title, :lang(ta) .hero-title { font-size: clamp(2.3rem,3.6vw,3.2rem); }
 @media (max-width: 860px) {
-  :lang(si) .h1-a, :lang(ta) .h1-a, :lang(si) .h1-b, :lang(ta) .h1-b { font-size: clamp(1.9rem, 8vw, 2.8rem); }
+  :lang(si) .h1-a, :lang(ta) .h1-a, :lang(si) .h1-b, :lang(ta) .h1-b { font-size: clamp(1.9rem,8vw,2.8rem); }
 }
-
-</style>
+  </style>
 </head>
 <body>
 
-<!-- ============ SVG ICON SPRITE ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -1289,7 +537,7 @@ body.modal-open { overflow: hidden; }
   </defs>
 </svg>
 
-<!-- ============ NAV ============ -->
+<!-- NAV -->
 <header class="nav-wrap" id="navWrap">
   <nav class="nav" aria-label="Main navigation">
     <a class="brand" href="#top" aria-label="ApexCV home">
@@ -1297,7 +545,6 @@ body.modal-open { overflow: hidden; }
       <span class="brand-name">ApexCV</span>
       <span class="brand-tag">ATS Experts</span>
     </a>
-
     <ul class="nav-links">
       <li><a href="#designs" data-i18n="nav_designs">Our Designs</a></li>
       <li><a href="#results" data-i18n="nav_results">Results</a></li>
@@ -1305,7 +552,6 @@ body.modal-open { overflow: hidden; }
       <li><a href="#shoots" data-i18n="nav_shoots">Our Shoots</a></li>
       <li><a href="#reviews" data-i18n="nav_reviews">Reviews</a></li>
     </ul>
-
     <div class="nav-actions">
       <div class="lang">
         <button class="lang-btn" type="button" data-lang-toggle aria-haspopup="true" aria-expanded="false" aria-label="Change language">
@@ -1325,7 +571,6 @@ body.modal-open { overflow: hidden; }
       </button>
     </div>
   </nav>
-
   <div class="mobile-menu" id="mobileMenu">
     <a href="#designs" data-i18n="nav_designs">Our Designs</a>
     <a href="#results" data-i18n="nav_results">Results</a>
@@ -1337,11 +582,10 @@ body.modal-open { overflow: hidden; }
 
 <main id="top">
 
-  <!-- ============ HERO ============ -->
+  <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero-copy">
       <span class="badge-pill"><i class="live-dot" aria-hidden="true"></i><span data-i18n="hero_badge">2,700+ Careers Transformed • Live ATS Checker</span></span>
-
       <h1 class="hero-title">
         <span class="h1-a">
           <span class="h1-line" data-i18n="h1a1">Land Your</span>
@@ -1349,73 +593,35 @@ body.modal-open { overflow: hidden; }
         </span>
         <span class="h1-b" data-i18n="h1b">with an ATS-Friendly CV</span>
       </h1>
-
       <p class="lead" data-i18n="lead">Expert storytelling meets recruitment technology. We make sure your CV passes the bots — and impresses the humans. Crafted by recruiters, optimized by AI.</p>
-
       <div class="hero-cta">
         <a class="btn btn-plum" href="buildcv.html"><span data-i18n="btn_build">Build My CV</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <a class="btn btn-gold" href="#designs" id="heroDesignsBtn"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-grid"/></svg><span data-i18n="btn_designs">Our Designs</span></a>
       </div>
-
       <div class="trust">
         <span class="avatars" aria-hidden="true"><i class="av av-plum">AK</i><i class="av av-ink">BR</i><i class="av av-gold">SM</i></span>
         <span data-i18n="trust">Trusted by professionals at Google, Deloitte</span>
       </div>
-
       <ul class="hero-chips">
         <li><span class="chip-ic chip-ic-ink"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-file"/></svg></span><span data-i18n="chip_engine">ATS Engine v4.2</span></li>
         <li><span class="chip-ic chip-ic-gold"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-clock"/></svg></span><span data-i18n="chip_turn">1hr Turnaround</span></li>
       </ul>
     </div>
 
-    <!--
-      ============================================================
-      HERO VIDEO  —  iPhone/iPad fixes applied
-      ============================================================
-      1. mix-blend-mode now lives on .hero-video-wrap, never on <video>
-         (WebKit renders a blended <video> as a blank/black box).
-      2. JS adds .no-blend on iOS/Safari so blending is switched off there
-         completely. The page behind is pure white, so a white-background
-         video still looks fine.
-      3. playsinline + webkit-playsinline + muted + autoplay are ALL required
-         for iOS inline autoplay. Removing any one of them breaks it.
-      4. Source order matters: Safari picks the first type it supports.
-         Put the alpha-channel .mov (HEVC with alpha) first so iOS gets real
-         transparency and doesn't need blending at all.
-
-      Put your files in an /assets folder next to index.html:
-        assets/hero.mov   HEVC + alpha  → Safari / iOS (best result)
-        assets/hero.webm  VP9 + alpha   → Chrome / Firefox / Android
-        tam.mp4           plain H.264 on white → universal fallback
-
-      IMPORTANT — re-encode the mp4 for iOS with:
-        ffmpeg -i tam.mp4 -c:v libx264 -profile:v baseline -level 3.1 \
-               -pix_fmt yuv420p -movflags +faststart -an tam.mp4
-      Safari refuses 4:4:4 / 10-bit / High-4:4:4 H.264 and needs the moov
-      atom at the front of the file (+faststart) to start playing.
-    -->
     <div class="hero-media" id="heroMedia">
       <div class="hero-video-wrap" id="heroVideoWrap">
-        <video class="hero-video" id="heroVideo"
-               autoplay muted loop playsinline webkit-playsinline
-               preload="auto" disablepictureinpicture
-               aria-hidden="true" tabindex="-1">
-          <!-- Safari / iOS: HEVC with alpha (optional — delete if you don't have it) -->
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
           <source src="assets/hero.mov" type="video/quicktime">
-          <!-- Chrome / Firefox / Android: VP9 with alpha (optional) -->
           <source src="assets/hero.webm" type="video/webm">
-          <!-- Universal fallback: plain H.264 on a white background -->
           <source src="tam.mp4" type="video/mp4">
           <source src="/tam.mp4" type="video/mp4">
         </video>
       </div>
-
       <div class="video-fallback" aria-hidden="true">
         <svg class="ic" aria-hidden="true"><use href="#i-file"/></svg>
         Hero video
         <small>Add assets/hero.webm or tam.mp4</small>
       </div>
-
       <span class="float f-ats"><i class="tick"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-check"/></svg></i>98% ATS Score</span>
       <span class="float f-best">Best in LK</span>
       <span class="float f-top"><i class="tick tick-plum"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-star"/></svg></i>Top 1% CV</span>
@@ -1427,7 +633,7 @@ body.modal-open { overflow: hidden; }
     </div>
   </section>
 
-  <!-- ============ STATS ============ -->
+  <!-- STATS -->
   <section class="stats-wrap">
     <div class="container">
       <div class="stats-card">
@@ -1447,14 +653,14 @@ body.modal-open { overflow: hidden; }
     </div>
   </section>
 
-  <!-- ============ TEMPLATES ============ -->
+  <!-- TEMPLATES -->
   <section class="section section-cream" id="designs">
     <div class="container">
       <div class="sec-head sec-head-row">
         <div>
           <span class="eyebrow"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-grid"/></svg>Our Design Templates</span>
           <h2>Our Design Templates</h2>
-          <p class="sec-sub">ATS-friendly, recruiter-approved designs · 60+ templates</p>
+          <p class="sec-sub">ATS-friendly, recruiter-approved designs · 59 templates</p>
         </div>
         <div class="tpl-controls">
           <span class="tpl-hint"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-eye"/></svg>Click to preview · Swipe to browse</span>
@@ -1466,23 +672,23 @@ body.modal-open { overflow: hidden; }
       <ul class="filter-row">
         <li class="filter filter-on"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-check"/></svg>ATS Optimized</li>
         <li class="filter">Recruiter Tested</li>
-        <li class="filter">57 Unique Designs</li>
+        <li class="filter">59 Unique Designs</li>
       </ul>
 
       <div class="tpl-track" id="tplTrack" tabindex="0" aria-label="Featured CV templates"></div>
 
       <div class="tpl-more-wrap">
         <button class="btn btn-plum" type="button" id="tplToggle" aria-expanded="false" aria-controls="tplMore">
-          <span id="tplToggleLabel">Show More Templates — 53 more</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <span id="tplToggleLabel">Show More Templates — 55 more</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
         </button>
-        <p class="tpl-count">4 featured • 57 total • Recruiter approved</p>
+        <p class="tpl-count">4 featured • 59 total • Recruiter approved</p>
       </div>
 
       <div class="tpl-grid" id="tplMore" hidden></div>
     </div>
   </section>
 
-  <!-- ============ BEFORE / AFTER ============ -->
+  <!-- BEFORE / AFTER -->
   <section class="section" id="results">
     <div class="container">
       <div class="sec-head sec-head-center">
@@ -1543,11 +749,7 @@ body.modal-open { overflow: hidden; }
                 </div>
                 <div class="cvb-right">
                   <div class="cvb-box cvb-outline"><b>OBJECTIVE</b><i class="ln" style="width:100%"></i><i class="ln" style="width:92%"></i><i class="ln" style="width:55%"></i></div>
-                  <table class="cvb-table" aria-hidden="true">
-                    <tr><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td></tr>
-                    <tr><td></td><td></td><td></td></tr>
-                  </table>
+                  <table class="cvb-table" aria-hidden="true"><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></table>
                   <div class="cvb-box cvb-outline"><b>WORK EXPERIENCE</b><i class="ln" style="width:96%"></i><i class="ln" style="width:100%"></i><i class="ln" style="width:70%"></i><i class="ln" style="width:88%"></i></div>
                   <div class="cvb-refs"><div class="cvb-box"><b>REFEREES</b><i class="ln" style="width:80%"></i><i class="ln" style="width:60%"></i></div><div class="cvb-box"><i class="ln" style="width:75%"></i><i class="ln" style="width:55%"></i></div></div>
                 </div>
@@ -1577,14 +779,13 @@ body.modal-open { overflow: hidden; }
     </div>
   </section>
 
-  <!-- ============ REVIEWS ============ -->
+  <!-- REVIEWS -->
   <section class="section section-cream" id="reviews">
     <div class="container">
       <div class="sec-head sec-head-row sec-head-end">
         <h2>Loved by<br>2,700+ professionals</h2>
         <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span>4.9/5 average rating</span></p>
       </div>
-
       <div class="review-grid">
         <article class="review">
           <svg class="quote-ic" aria-hidden="true"><use href="#i-quote"/></svg>
@@ -1617,14 +818,13 @@ body.modal-open { overflow: hidden; }
     </div>
   </section>
 
-  <!-- ============ PRICING ============ -->
+  <!-- PRICING -->
   <section class="section" id="packages">
     <div class="container">
       <div class="sec-head sec-head-center">
         <h2>Simple pricing. Premium results.</h2>
         <p class="sec-sub">No subscriptions. One-time. ATS pass guarantee. Delivered in 24 hours.</p>
       </div>
-
       <div class="price-grid">
         <article class="plan">
           <header class="plan-head"><h3>Local</h3><span class="plan-tag">For Local Jobs</span></header>
@@ -1638,7 +838,6 @@ body.modal-open { overflow: hidden; }
           </ul>
           <a class="btn btn-outline btn-block" href="https://wa.me/94721223139" target="_blank" rel="noopener" data-wa="Hi ApexCV! I'd like the Local package (Rs 750).">Choose Local</a>
         </article>
-
         <article class="plan plan-featured">
           <header class="plan-head"><h3>Global</h3><span class="plan-tag plan-tag-gold">Most Popular</span></header>
           <p class="plan-price"><strong>950</strong><span>Rs</span></p>
@@ -1655,7 +854,6 @@ body.modal-open { overflow: hidden; }
           <a class="btn btn-light btn-block" href="https://wa.me/94721223139" target="_blank" rel="noopener" data-wa="Hi ApexCV! I'd like the Global package (Rs 950).">Choose Global — Best Value</a>
           <p class="plan-foot">2,100+ clients chose this</p>
         </article>
-
         <article class="plan">
           <header class="plan-head"><h3>Premium</h3><span class="plan-tag plan-tag-ink">Global + LinkedIn</span></header>
           <p class="plan-price"><strong>1450</strong><span>Rs</span></p>
@@ -1676,7 +874,7 @@ body.modal-open { overflow: hidden; }
     </div>
   </section>
 
-  <!-- ============ SHOOTS ============ -->
+  <!-- SHOOTS -->
   <section class="section section-cream" id="shoots">
     <div class="container">
       <div class="sec-head sec-head-center">
@@ -1684,10 +882,7 @@ body.modal-open { overflow: hidden; }
         <h2>Our Shoots</h2>
         <p class="sec-sub">Behind the scenes of our premium brand shoots</p>
       </div>
-
-      <!-- Drop your photos in assets/shoots/shoot-1.jpg … shoot-8.jpg (4:5 portrait works best) -->
       <div class="shoot-grid" id="shootGrid"></div>
-
       <div class="center-row">
         <button class="btn btn-outline" type="button" id="shootToggle" aria-expanded="false"><span id="shootToggleLabel">Show More</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></button>
       </div>
@@ -1695,7 +890,7 @@ body.modal-open { overflow: hidden; }
   </section>
 </main>
 
-<!-- ============ FOOTER ============ -->
+<!-- FOOTER -->
 <footer class="footer" id="contact">
   <div class="container">
     <div class="footer-grid">
@@ -1704,7 +899,6 @@ body.modal-open { overflow: hidden; }
         <p>We craft ATS-friendly CVs that pass the bots and impress hiring managers. Built by recruiters, powered by research.</p>
         <span class="footer-chip"><i class="live-dot" aria-hidden="true"></i>1hr average response • 7 days a week</span>
       </div>
-
       <div class="footer-col">
         <h3>Contact</h3>
         <ul class="contact-list">
@@ -1714,7 +908,6 @@ body.modal-open { overflow: hidden; }
           <li><a href="mailto:hello@apexcv.shop"><span class="c-ic"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-mail"/></svg></span>hello@apexcv.shop</a></li>
         </ul>
       </div>
-
       <div class="footer-col">
         <h3>Quick Links</h3>
         <ul class="link-list">
@@ -1726,7 +919,6 @@ body.modal-open { overflow: hidden; }
         </ul>
       </div>
     </div>
-
     <div class="footer-bar">
       <span>© <span id="year">2026</span> ApexCV • Colombo, Sri Lanka • ATS-friendly CV writing service. All rights reserved.</span>
       <span class="footer-made"><i class="dot-gold"></i>Made with precision for job seekers worldwide</span>
@@ -1734,7 +926,7 @@ body.modal-open { overflow: hidden; }
   </div>
 </footer>
 
-<!-- ============ FLOATING ACTIONS ============ -->
+<!-- FLOATING ACTIONS -->
 <div class="float-actions">
   <div class="lang lang-float">
     <button class="globe-btn" type="button" data-lang-toggle aria-haspopup="true" aria-expanded="false" aria-label="Change language">
@@ -1753,19 +945,17 @@ body.modal-open { overflow: hidden; }
 
 <a class="sticky-cta" id="stickyCta" href="buildcv.html"><span data-i18n="sticky">Build My CV Now</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 
-<!-- ============ SWIPEABLE VIEWER (templates + shoots) ============ -->
+<!-- VIEWER -->
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Gallery viewer">
   <div class="viewer-bar">
-    <span class="viewer-title"><strong id="viewerTitle">Template #1</strong><span id="viewerCount">1 / 57</span></span>
+    <span class="viewer-title"><strong id="viewerTitle">Template #1</strong><span id="viewerCount">1 / 59</span></span>
     <button class="viewer-close" type="button" id="viewerClose" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
-
   <div class="viewer-stage" id="viewerStage">
     <div class="viewer-track" id="viewerTrack"></div>
     <button class="viewer-nav viewer-prev" type="button" id="viewerPrev" aria-label="Previous"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button>
     <button class="viewer-nav viewer-next" type="button" id="viewerNext" aria-label="Next"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button>
   </div>
-
   <div class="viewer-foot">
     <span class="viewer-dots" id="viewerDots" aria-hidden="true"></span>
     <a class="btn btn-plum" id="viewerCta" href="https://wa.me/94721223139" target="_blank" rel="noopener"><span>Use this design</span><svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -1773,351 +963,224 @@ body.modal-open { overflow: hidden; }
 </div>
 
 <script>
-/* =========================================================
-   ApexCV — script.js  (vanilla JS, no dependencies)
-   ========================================================= */
 (() => {
   'use strict';
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-  /* ---------- CONFIG: change your WhatsApp number here (country code, no + or spaces) ---------- */
   const WHATSAPP = '94721223139';
   const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-    set(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} }
   };
 
-  /* ---------- Platform detection (used by the hero video fix) ---------- */
   const ua = navigator.userAgent || '';
-  const isIOS = /iP(hone|od|ad)/.test(ua) ||
-                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isIOS = /iP(hone|od|ad)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
   const isWebKit = isIOS || isSafari;
 
-  /* =========================================================
-     ZOOM LOCK
-     The viewport meta handles most browsers, but iOS Safari ignores
-     user-scalable=no, so pinch gestures and double-tap are blocked here.
-     ========================================================= */
-  ['gesturestart', 'gesturechange', 'gestureend'].forEach((evt) =>
-    document.addEventListener(evt, (e) => e.preventDefault(), { passive: false }));
-
-  document.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches.length > 1) e.preventDefault(); // multi-finger pinch
-  }, { passive: false });
-
+  /* Zoom lock */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt =>
+    document.addEventListener(evt, e => e.preventDefault(), { passive: false }));
+  document.addEventListener('touchmove', e => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
   let lastTap = 0;
-  document.addEventListener('touchend', (e) => {
-    const now = Date.now();
-    if (now - lastTap < 320) e.preventDefault(); // double-tap zoom
-    lastTap = now;
-  }, { passive: false });
+  document.addEventListener('touchend', e => { const now = Date.now(); if (now - lastTap < 320) e.preventDefault(); lastTap = now; }, { passive: false });
+  document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+  document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 
-  document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
-  document.addEventListener('wheel', (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
-
-  /* ---------- Footer year ---------- */
+  /* Footer year */
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ---------- WhatsApp links ---------- */
-  $$('[data-wa]').forEach((a) => { a.href = waLink(a.dataset.wa); });
+  /* WhatsApp links */
+  $$('[data-wa]').forEach(a => { a.href = waLink(a.dataset.wa); });
 
-  /* =========================================================
-     NAV
-     ========================================================= */
+  /* NAV */
   const navWrap = $('#navWrap');
   const burger = $('#burger');
-
   const onScroll = () => navWrap.classList.toggle('scrolled', window.scrollY > 10);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+  const closeMenu = () => { navWrap.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); };
+  burger.addEventListener('click', () => { const open = navWrap.classList.toggle('open'); burger.setAttribute('aria-expanded', String(open)); });
+  $$('#mobileMenu a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('click', e => { if (!navWrap.contains(e.target)) closeMenu(); });
 
-  const closeMenu = () => {
-    navWrap.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  };
-  burger.addEventListener('click', () => {
-    const open = navWrap.classList.toggle('open');
-    burger.setAttribute('aria-expanded', String(open));
-  });
-  $$('#mobileMenu a').forEach((a) => a.addEventListener('click', closeMenu));
-  document.addEventListener('click', (e) => { if (!navWrap.contains(e.target)) closeMenu(); });
-
-  /* =========================================================
-     LANGUAGE (EN / සිංහල / தமிழ்)
-     ========================================================= */
+  /* I18N */
   const I18N = {
-    en: {
-      code: 'EN', region: 'GB',
-      nav_designs: 'Our Designs', nav_results: 'Results', nav_packages: 'Packages', nav_shoots: 'Our Shoots', nav_reviews: 'Reviews',
-      cta_start: 'Get Started',
-      hero_badge: '2,700+ Careers Transformed • Live ATS Checker',
-      h1a1: 'Land Your', h1a2: 'Dream Job', h1b: 'with an ATS-Friendly CV',
-      lead: 'Expert storytelling meets recruitment technology. We make sure your CV passes the bots — and impresses the humans. Crafted by recruiters, optimized by AI.',
-      btn_build: 'Build My CV', btn_designs: 'Our Designs',
-      trust: 'Trusted by professionals at Google, Deloitte',
-      chip_engine: 'ATS Engine v4.2', chip_turn: '1hr Turnaround',
-      sticky: 'Build My CV Now'
-    },
-    si: {
-      code: 'SI', region: 'LK',
-      nav_designs: 'අපගේ නිර්මාණ', nav_results: 'ප්‍රතිඵල', nav_packages: 'පැකේජ', nav_shoots: 'අපගේ ඡායාරූප', nav_reviews: 'සමාලෝචන',
-      cta_start: 'ආරම්භ කරන්න',
-      hero_badge: '2,700+ වෘත්තීන් පරිවර්තනය • සජීවී ATS පරීක්ෂකය',
-      h1a1: 'ඔබේ සිහින', h1a2: 'රැකියාව ලබාගන්න', h1b: 'ATS-හිතකාමී CV එකකින්',
-      lead: 'විශේෂඥ කතන්දර කලාව සහ බඳවා ගැනීමේ තාක්ෂණය එක්වන තැන. ඔබේ CV එක බොට් පරීක්ෂාව සමත් වන අතර මිනිසුන්ව ද ආකර්ෂණය කරන බව අපි සහතික කරමු.',
-      btn_build: 'මගේ CV සාදන්න', btn_designs: 'අපගේ නිර්මාණ',
-      trust: 'Google, Deloitte වැනි ආයතනවල වෘත්තිකයන්ගේ විශ්වාසය',
-      chip_engine: 'ATS එන්ජිම v4.2', chip_turn: 'පැයක් තුළ භාරදීම',
-      sticky: 'මගේ CV දැන් සාදන්න'
-    },
-    ta: {
-      code: 'TA', region: 'LK',
-      nav_designs: 'எங்கள் வடிவமைப்புகள்', nav_results: 'முடிவுகள்', nav_packages: 'தொகுப்புகள்', nav_shoots: 'எங்கள் படங்கள்', nav_reviews: 'மதிப்புரைகள்',
-      cta_start: 'தொடங்குங்கள்',
-      hero_badge: '2,700+ தொழில்கள் மாற்றப்பட்டன • நேரடி ATS சோதனை',
-      h1a1: 'உங்கள் கனவு', h1a2: 'வேலையைப் பெறுங்கள்', h1b: 'ATS-நட்பு CV உடன்',
-      lead: 'நிபுணத்துவ கதைசொல்லல் மற்றும் ஆட்சேர்ப்புத் தொழில்நுட்பம் ஒன்றிணைகிறது. உங்கள் CV பாட்களைக் கடந்து, மனிதர்களையும் கவர்வதை உறுதி செய்கிறோம்.',
-      btn_build: 'என் CV உருவாக்கு', btn_designs: 'எங்கள் வடிவமைப்புகள்',
-      trust: 'Google, Deloitte போன்ற நிறுவனங்களின் நிபுணர்கள் நம்பும் சேவை',
-      chip_engine: 'ATS இன்ஜின் v4.2', chip_turn: '1 மணி நேர டெலிவரி',
-      sticky: 'என் CV-ஐ இப்போது உருவாக்கு'
-    }
+    en: { code:'EN', region:'GB', nav_designs:'Our Designs', nav_results:'Results', nav_packages:'Packages', nav_shoots:'Our Shoots', nav_reviews:'Reviews', cta_start:'Get Started', hero_badge:'2,700+ Careers Transformed • Live ATS Checker', h1a1:'Land Your', h1a2:'Dream Job', h1b:'with an ATS-Friendly CV', lead:'Expert storytelling meets recruitment technology. We make sure your CV passes the bots — and impresses the humans. Crafted by recruiters, optimized by AI.', btn_build:'Build My CV', btn_designs:'Our Designs', trust:'Trusted by professionals at Google, Deloitte', chip_engine:'ATS Engine v4.2', chip_turn:'1hr Turnaround', sticky:'Build My CV Now' },
+    si: { code:'SI', region:'LK', nav_designs:'අපගේ නිර්මාණ', nav_results:'ප්‍රතිඵල', nav_packages:'පැකේජ', nav_shoots:'අපගේ ඡායාරූප', nav_reviews:'සමාලෝචන', cta_start:'ආරම්භ කරන්න', hero_badge:'2,700+ වෘත්තීන් පරිවර්තනය • සජීවී ATS පරීක්ෂකය', h1a1:'ඔබේ සිහින', h1a2:'රැකියාව ලබාගන්න', h1b:'ATS-හිතකාමී CV එකකින්', lead:'විශේෂඥ කතන්දර කලාව සහ බඳවා ගැනීමේ තාක්ෂණය එක්වන තැන. ඔබේ CV එක බොට් පරීක්ෂාව සමත් වන අතර මිනිසුන්ව ද ආකර්ෂණය කරන බව අපි සහතික කරමු.', btn_build:'මගේ CV සාදන්න', btn_designs:'අපගේ නිර්මාණ', trust:'Google, Deloitte වැනි ආයතනවල වෘත්තිකයන්ගේ විශ්වාසය', chip_engine:'ATS එන්ජිම v4.2', chip_turn:'පැයක් තුළ භාරදීම', sticky:'මගේ CV දැන් සාදන්න' },
+    ta: { code:'TA', region:'LK', nav_designs:'எங்கள் வடிவமைப்புகள்', nav_results:'முடிவுகள்', nav_packages:'தொகுப்புகள்', nav_shoots:'எங்கள் படங்கள்', nav_reviews:'மதிப்புரைகள்', cta_start:'தொடங்குங்கள்', hero_badge:'2,700+ தொழில்கள் மாற்றப்பட்டன • நேரடி ATS சோதனை', h1a1:'உங்கள் கனவு', h1a2:'வேலையைப் பெறுங்கள்', h1b:'ATS-நட்பு CV உடன்', lead:'நிபுணத்துவ கதைசொல்லல் மற்றும் ஆட்சேர்ப்புத் தொழில்நுட்பம் ஒன்றிணைகிறது. உங்கள் CV பாட்களைக் கடந்து, மனிதர்களையும் கவர்வதை உறுதி செய்கிறோம்.', btn_build:'என் CV உருவாக்கு', btn_designs:'எங்கள் வடிவமைப்புகள்', trust:'Google, Deloitte போன்ற நிறுவனங்களின் நிபுணர்கள் நம்பும் சேவை', chip_engine:'ATS இன்ஜின் v4.2', chip_turn:'1 மணி நேர டெலிவரி', sticky:'என் CV-ஐ இப்போது உருவாக்கு' }
   };
-
-  const setLang = (lang) => {
+  const setLang = lang => {
     const dict = I18N[lang] || I18N.en;
-    $$('[data-i18n]').forEach((el) => {
-      const key = el.dataset.i18n;
-      el.textContent = dict[key] ?? I18N.en[key] ?? el.textContent;
-    });
-    $$('[data-lang-code]').forEach((el) => { el.textContent = dict.code; });
-    $$('[data-lang-region]').forEach((el) => { el.textContent = dict.region; });
-    $$('[data-lang]').forEach((b) => b.setAttribute('aria-current', String(b.dataset.lang === lang)));
+    $$('[data-i18n]').forEach(el => { const k = el.dataset.i18n; el.textContent = dict[k] ?? I18N.en[k] ?? el.textContent; });
+    $$('[data-lang-code]').forEach(el => { el.textContent = dict.code; });
+    $$('[data-lang-region]').forEach(el => { el.textContent = dict.region; });
+    $$('[data-lang]').forEach(b => b.setAttribute('aria-current', String(b.dataset.lang === lang)));
     document.documentElement.lang = lang;
     store.set('apexcv-lang', lang);
   };
-
   const langBoxes = $$('.lang');
-  const closeLangs = () => langBoxes.forEach((box) => {
-    box.classList.remove('open');
-    $('[data-lang-toggle]', box).setAttribute('aria-expanded', 'false');
-  });
-  langBoxes.forEach((box) => {
+  const closeLangs = () => langBoxes.forEach(box => { box.classList.remove('open'); $('[data-lang-toggle]', box).setAttribute('aria-expanded','false'); });
+  langBoxes.forEach(box => {
     const btn = $('[data-lang-toggle]', box);
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = !box.classList.contains('open');
-      closeLangs();
-      box.classList.toggle('open', willOpen);
-      btn.setAttribute('aria-expanded', String(willOpen));
-    });
-    $$('[data-lang]', box).forEach((b) => b.addEventListener('click', () => {
-      setLang(b.dataset.lang);
-      closeLangs();
-    }));
+    btn.addEventListener('click', e => { e.stopPropagation(); const w = !box.classList.contains('open'); closeLangs(); box.classList.toggle('open',w); btn.setAttribute('aria-expanded',String(w)); });
+    $$('[data-lang]', box).forEach(b => b.addEventListener('click', () => { setLang(b.dataset.lang); closeLangs(); }));
   });
   document.addEventListener('click', closeLangs);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLangs(); closeMenu(); } });
-
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLangs(); closeMenu(); } });
   setLang(I18N[store.get('apexcv-lang')] ? store.get('apexcv-lang') : 'en');
 
-  /* =========================================================
-     HERO VIDEO — iOS / Safari safe
-     ---------------------------------------------------------
-     FIX 1: never blend the <video> itself. On WebKit we turn the wrapper's
-            mix-blend-mode off entirely (.no-blend) — the page behind is
-            white, so a white-background video still looks seamless.
-     FIX 2: muted must be set as a PROPERTY before play() on iOS, not just
-            as an attribute.
-     FIX 3: iOS can block autoplay in Low Power Mode; we retry play() on the
-            first user gesture and whenever the tab becomes visible again.
-     FIX 4: if a source with a real alpha channel loaded (.mov/.webm), we
-            mark .has-alpha so no blending is needed anywhere.
-     ========================================================= */
+  /* HERO VIDEO */
   const media = $('#heroMedia');
   const video = $('#heroVideo');
-
   if (video && media) {
-    // FIX 1 — kill blending on every WebKit browser (all iPhone/iPad browsers)
     if (isWebKit) media.classList.add('no-blend');
-
-    // FIX 2 — muted as a property, before any play attempt
-    video.muted = true;
-    video.defaultMuted = true;
-    video.setAttribute('muted', '');
-    video.playsInline = true;
-
+    video.muted = true; video.defaultMuted = true; video.setAttribute('muted',''); video.playsInline = true;
     const fail = () => media.classList.add('no-video');
-    const ok = () => {
-      media.classList.remove('no-video');
-      // FIX 4 — alpha sources need no blend at all
-      const src = (video.currentSrc || '').toLowerCase();
-      if (src.endsWith('.mov') || src.endsWith('.webm')) media.classList.add('has-alpha');
-    };
-
+    const ok = () => { media.classList.remove('no-video'); const src = (video.currentSrc||'').toLowerCase(); if (src.endsWith('.mov') || src.endsWith('.webm')) media.classList.add('has-alpha'); };
     video.addEventListener('loadeddata', ok);
     video.addEventListener('canplay', ok);
     video.addEventListener('error', fail);
-    $$('source', video).forEach((src) => src.addEventListener('error', () => {
-      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail();
-    }));
-
-    // If nothing at all could be loaded, show the placeholder
-    setTimeout(() => {
-      if (video.readyState === 0 && video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail();
-    }, 4000);
-
-    // FIX 3 — robust play with retries
-    const tryPlay = () => {
-      if (reduceMotion) return;
-      const p = video.play();
-      if (p && typeof p.catch === 'function') p.catch(() => { /* blocked — retry on gesture */ });
-    };
-
-    if (reduceMotion) {
-      video.removeAttribute('autoplay');
-      video.pause();
-    } else {
+    $$('source', video).forEach(src => src.addEventListener('error', () => { if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail(); }));
+    setTimeout(() => { if (video.readyState === 0 && video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fail(); }, 4000);
+    const tryPlay = () => { if (reduceMotion) return; const p = video.play(); if (p && typeof p.catch === 'function') p.catch(()=>{}); };
+    if (reduceMotion) { video.removeAttribute('autoplay'); video.pause(); } else {
       tryPlay();
-      // Safari sometimes needs an explicit load() after the sources are parsed
       if (video.readyState === 0) { try { video.load(); } catch {} tryPlay(); }
-
-      ['touchstart', 'pointerdown', 'click', 'scroll'].forEach((evt) =>
-        window.addEventListener(evt, tryPlay, { once: true, passive: true }));
-
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && video.paused) tryPlay();
-      });
+      ['touchstart','pointerdown','click','scroll'].forEach(evt => window.addEventListener(evt, tryPlay, { once: true, passive: true }));
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && video.paused) tryPlay(); });
       window.addEventListener('pageshow', tryPlay);
     }
   }
 
-  /* =========================================================
-     MARQUEE
-     ========================================================= */
+  /* MARQUEE */
   const marqueeTrack = $('#marqueeTrack');
-  const marqueeWords = ['ATS Optimized', 'Recruiter Approved', '2700+ Hired', '98% Success', 'Fast Delivery'];
+  const marqueeWords = ['ATS Optimized','Recruiter Approved','2700+ Hired','98% Success','Fast Delivery'];
   const buildMarquee = () => {
-    const one = marqueeWords.map((w) => `<span>${w}</span>`).join('');
+    const one = marqueeWords.map(w => `<span>${w}</span>`).join('');
     marqueeTrack.innerHTML = one;
     const setWidth = marqueeTrack.scrollWidth || 1;
     const copies = Math.min(12, Math.max(1, Math.ceil((window.innerWidth * 1.2) / setWidth)));
     const half = one.repeat(copies);
-    marqueeTrack.innerHTML = half + half; // animation moves -50% => seamless loop
+    marqueeTrack.innerHTML = half + half;
   };
   buildMarquee();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildMarquee);
   let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildMarquee, 200);
-  });
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(buildMarquee, 200); });
 
-  /* =========================================================
-     STAT COUNTERS
-     ========================================================= */
+  /* STAT COUNTERS */
   const statsCard = $('.stats-card');
   const counters = $$('[data-count]');
-  const runCounters = () => counters.forEach((el) => {
+  const runCounters = () => counters.forEach(el => {
     const target = Number(el.dataset.count);
     const suffix = el.dataset.suffix || '';
     if (reduceMotion || target < 5) { el.textContent = target + suffix; return; }
-    const start = performance.now();
-    const dur = 1600;
-    const tick = (now) => {
-      const t = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.round(target * eased) + suffix;
-      if (t < 1) requestAnimationFrame(tick);
-    };
+    const start = performance.now(); const dur = 1600;
+    const tick = now => { const t = Math.min(1,(now-start)/dur); const e2 = 1-Math.pow(1-t,3); el.textContent = Math.round(target*e2)+suffix; if(t<1) requestAnimationFrame(tick); };
     requestAnimationFrame(tick);
   });
   if (statsCard && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries, obs) => {
-      if (entries.some((e) => e.isIntersecting)) { runCounters(); obs.disconnect(); }
-    }, { threshold: 0.4 });
+    const io = new IntersectionObserver((entries,obs) => { if (entries.some(e => e.isIntersecting)) { runCounters(); obs.disconnect(); } }, { threshold: 0.4 });
     io.observe(statsCard);
   }
 
   /* =========================================================
-     TEMPLATES  (CSS-drawn CV mock-ups — swap for real images any time)
+     TEMPLATES — real images from /img/cv/
      ========================================================= */
-  const featured = [
-    { name: 'Lorna Alvarado', role: 'Web Development', layout: 0, a: '#2b2b2b' },
-    { name: 'Claudia Alves', role: 'Graphic Designer', layout: 1, a: '#e07a2f' },
-    { name: 'Dani Martinez', role: 'Web Developer', layout: 2, a: '#2f6fdd' },
-    { name: 'Richard Sanchez', role: 'Marketing Manager', layout: 3, a: '#1f3a5f' }
+  const CV_IMAGES = [
+    "/img/cv/1131w-YrLLMyu_Spg.jpg",
+    "/img/cv/1131w-YDOVguPKX9w.jpg",
+    "/img/cv/1131w-xUvw8-nT_0w.jpg",
+    "/img/cv/1131w-XlrM7ZFi9-A.jpg",
+    "/img/cv/1131w-xLL5mj30g6w.jpg",
+    "/img/cv/1131w-xCJJpx935SU.jpg",
+    "/img/cv/1131w-WVgI47CsDKI.jpg",
+    "/img/cv/1131w-W5vDNoIRFk0.jpg",
+    "/img/cv/1131w-VRasOY81MD0.jpg",
+    "/img/cv/1131w-UYYP7zo3RdQ.jpg",
+    "/img/cv/1131w-tqtJaIjoR-8.jpg",
+    "/img/cv/1131w-tmI04IdBYnA.jpg",
+    "/img/cv/1131w-tK55kne_dYQ.jpg",
+    "/img/cv/1131w-T9RPR4DPdiw%20%281%29.jpg",
+    "/img/cv/1131w-SyEJWK8EVkg.jpg",
+    "/img/cv/1131w-S57W3r4NwWI.jpg",
+    "/img/cv/1131w-RwGZlzPG85A.jpg",
+    "/img/cv/1131w-rUxFtmNzo1s.jpg",
+    "/img/cv/1131w-r5eshjRtEz4.jpg",
+    "/img/cv/1131w-QdITVgnXGRY.jpg",
+    "/img/cv/1131w-osKE8XhvvlQ.jpg",
+    "/img/cv/1131w-oHpugI2qr7s.jpg",
+    "/img/cv/1131w-NUJTJoo_vYw.jpg",
+    "/img/cv/1131w-MnIiL31VNa8.jpg",
+    "/img/cv/1131w-lSaqcD00XCg.jpg",
+    "/img/cv/1131w-lSaqcD00XCg%20%281%29.jpg",
+    "/img/cv/1131w-Lo967-QZFmA.jpg",
+    "/img/cv/1131w--Ku2jYPLXZ0.jpg",
+    "/img/cv/1131w-K62pF6r5vZc.jpg",
+    "/img/cv/1131w-k9abmc6R4qM.jpg",
+    "/img/cv/1131w-jrXfjUrwCzU.jpg",
+    "/img/cv/1131w-JDLa6L9eyy4.jpg",
+    "/img/cv/1131w-jd5lauT_Bf4.jpg",
+    "/img/cv/1131w-JaFKWKSfY34.jpg",
+    "/img/cv/1131w-j2QA-Hmk-bY.jpg",
+    "/img/cv/1131w-I4sXWBS9cOA.jpg",
+    "/img/cv/1131w-HKg58-x5rG0.jpg",
+    "/img/cv/1131w-gmDzVDH2nRw.jpg",
+    "/img/cv/1131w-giIbWaEWG1c.jpg",
+    "/img/cv/1131w-GIeOalVWv_M.jpg",
+    "/img/cv/1131w-FRk5-DWg3Hc.jpg",
+    "/img/cv/1131w-eW9brK-nzxM.jpg",
+    "/img/cv/1131w-EpMu24n2oDQ.jpg",
+    "/img/cv/1131w-ePK1h2N75qs.jpg",
+    "/img/cv/1131w-dAg3sbT9ETE.jpg",
+    "/img/cv/1131w-CLDSnDo-Q5s.jpg",
+    "/img/cv/1131w-CkXc2TEJmpk.jpg",
+    "/img/cv/1131w-bvOKYhOG9qg.jpg",
+    "/img/cv/1131w-BvMHLWx_zec.jpg",
+    "/img/cv/1131w-95OJyWAeQ0g.jpg",
+    "/img/cv/1131w-49g5zUJf7-U.jpg",
+    "/img/cv/1131w-9gaJ0_ebOIk.jpg",
+    "/img/cv/1131w-8tCa5tJx18I.jpg",
+    "/img/cv/1131w--7qU1qmoczI.jpg",
+    "/img/cv/1131w-5PtOouDCIT0.jpg",
+    "/img/cv/1131w-1ekUyT5uc2Y.jpg",
+    "/img/cv/1131w-0yY_pe--JrM.jpg",
+    "/img/cv/1131w-_I38t9OC_rE.jpg",
+    "/img/cv/1131w-_eKnYrnHNWM.jpg"
   ];
-  const firstNames = ['Amaya', 'Kasun', 'Nadia', 'Tharindu', 'Ishara', 'Rohan', 'Sithara', 'Dinesh', 'Maya', 'Hiran', 'Priya', 'Lakshan', 'Nimali', 'Arjun'];
-  const lastNames = ['Fernando', 'Silva', 'Perera', 'Wijesinghe', 'Rajapaksa', 'De Mel', 'Jayasuriya', 'Gunawardena', 'Kumar', 'Herath'];
-  const roles = ['Accountant', 'Software Engineer', 'HR Executive', 'Civil Engineer', 'UX Designer', 'Sales Manager', 'Data Analyst', 'Nurse', 'Project Manager', 'Teacher', 'Marketing Executive'];
-  const palettes = ['#2b2b2b', '#e07a2f', '#2f6fdd', '#1f3a5f', '#0f8b6f', '#8e3b8e', '#c2410c', '#0e7490', '#be123c', '#4d7c0f', '#7c3aed', '#b45309'];
 
-  const templates = Array.from({ length: 57 }, (_, i) => featured[i] || {
-    name: `${firstNames[i % firstNames.length]} ${lastNames[(i * 7) % lastNames.length]}`,
-    role: roles[i % roles.length],
-    layout: i % 4,
-    a: palettes[(i * 5 + 2) % palettes.length]
-  });
+  const TOTAL = CV_IMAGES.length; // 59
 
-  const rand = (seed) => () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
-  const lines = (n, seed) => {
-    const r = rand(seed);
-    return Array.from({ length: n }, (_, k) => {
-      const w = k === n - 1 ? 38 + Math.round(r() * 30) : 78 + Math.round(r() * 22);
-      return `<i class="ln" style="width:${w}%"></i>`;
-    }).join('');
-  };
-  const sec = (title, n, seed) => `<div class="cv-sec"><b class="cv-h">${title}</b>${lines(n, seed)}</div>`;
-  const photo = '<span class="cv-ph"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-person"/></svg></span>';
+  // Build template objects from the image list
+  const templates = CV_IMAGES.map((src, i) => ({ src, num: i + 1 }));
 
-  const cvHTML = (t, i) => {
-    if (t.img) return `<img src="${t.img}" alt="${t.name} CV template" style="width:100%;height:100%;object-fit:cover">`;
-    const s = i * 17 + 3;
-    const head = `<div><h4>${t.name}</h4><p>${t.role}</p></div>`;
-    const side = sec('Contact', 3, s) + sec('Skills', 4, s + 1) + sec('Languages', 2, s + 2);
-    const main = sec('Profile', 4, s + 3) + sec('Experience', 7, s + 4) + sec('Education', 3, s + 5);
-    let inner;
-    switch (t.layout) {
-      case 0:
-        inner = `<div class="cv-0"><div class="cv-top">${photo}${head}</div><div class="cv-body"><div class="cv-side">${side}</div><div class="cv-main">${main}</div></div></div>`;
-        break;
-      case 1:
-        inner = `<div class="cv-1"><div class="cv-side">${photo}${sec('Contact', 3, s)}${sec('Skills', 5, s + 1)}${sec('Languages', 2, s + 2)}</div><div class="cv-main"><div class="cv-title">${head}</div>${main}</div></div>`;
-        break;
-      case 2:
-        inner = `<div class="cv-2"><div class="cv-banner">${photo}${head}</div><div class="cv-body"><div class="cv-main">${main}</div><div class="cv-side">${side}</div></div></div>`;
-        break;
-      default:
-        inner = `<div class="cv-3"><div class="cv-top">${photo}${head}</div><div class="cv-body"><div class="cv-side">${side}</div><div class="cv-main">${main}</div></div></div>`;
-    }
-    return `<div class="cv" style="--a:${t.a}">${inner}</div>`;
-  };
-
-  const cardHTML = (t, i) => `
-    <button class="tpl-card" type="button" data-i="${i}" aria-label="Preview template ${i + 1}: ${t.name}, ${t.role}">
-      <div class="tpl-thumb"><span class="tpl-num">#${i + 1}</span>${cvHTML(t, i)}</div>
-      <div class="tpl-meta"><b>Template #${i + 1}</b><i>ATS ✓</i></div>
+  // Card HTML — uses real image, falls back gracefully if missing
+  const cardHTML = (t) => `
+    <button class="tpl-card" type="button" data-i="${t.num - 1}" aria-label="Preview template ${t.num}">
+      <div class="tpl-thumb">
+        <span class="tpl-num">#${t.num}</span>
+        <img src="${t.src}" alt="CV Template #${t.num}" loading="lazy" onerror="this.style.opacity='0'">
+      </div>
+      <div class="tpl-meta"><b>Template #${t.num}</b><i>ATS ✓</i></div>
     </button>`;
 
   const tplTrack = $('#tplTrack');
-  const tplMore = $('#tplMore');
-  tplTrack.innerHTML = templates.slice(0, 4).map((t, i) => cardHTML(t, i)).join('');
+  const tplMore  = $('#tplMore');
+
+  // Show first 4 in the horizontal carousel
+  tplTrack.innerHTML = templates.slice(0, 4).map(cardHTML).join('');
 
   // Carousel arrows
   const prev = $('#tplPrev');
   const next = $('#tplNext');
-  const stepSize = () => {
-    const c = $('.tpl-card', tplTrack);
-    return c ? c.getBoundingClientRect().width + 20 : 300;
-  };
+  const stepSize = () => { const c = $('.tpl-card', tplTrack); return c ? c.getBoundingClientRect().width + 20 : 300; };
   const updateArrows = () => {
     const canScroll = tplTrack.scrollWidth > tplTrack.clientWidth + 4;
     prev.hidden = next.hidden = !canScroll;
@@ -2135,10 +1198,7 @@ body.modal-open { overflow: hidden; }
   const tplToggleLabel = $('#tplToggleLabel');
   let moreBuilt = false;
   const expandTemplates = (scroll) => {
-    if (!moreBuilt) {
-      tplMore.innerHTML = templates.slice(4).map((t, k) => cardHTML(t, k + 4)).join('');
-      moreBuilt = true;
-    }
+    if (!moreBuilt) { tplMore.innerHTML = templates.slice(4).map(cardHTML).join(''); moreBuilt = true; }
     tplMore.hidden = false;
     tplToggle.setAttribute('aria-expanded', 'true');
     tplToggleLabel.textContent = 'Show Fewer Templates';
@@ -2148,33 +1208,24 @@ body.modal-open { overflow: hidden; }
     if (tplMore.hidden) { expandTemplates(true); return; }
     tplMore.hidden = true;
     tplToggle.setAttribute('aria-expanded', 'false');
-    tplToggleLabel.textContent = 'Show More Templates — 53 more';
+    tplToggleLabel.textContent = `Show More Templates — ${TOTAL - 4} more`;
   });
 
-  /* "Our Designs" in the hero → jump to the section with every design already open */
   const heroDesignsBtn = $('#heroDesignsBtn');
-  if (heroDesignsBtn) heroDesignsBtn.addEventListener('click', () => {
-    expandTemplates(false);
-    setTimeout(updateArrows, 60);
-  });
+  if (heroDesignsBtn) heroDesignsBtn.addEventListener('click', () => { expandTemplates(false); setTimeout(updateArrows, 60); });
 
-  /* =========================================================
-     SWIPEABLE VIEWER — used by templates and by shoots.
-     Pinch-zoom is impossible inside it (touch-action: pan-y +
-     blocked gesture events), only horizontal swiping.
-     ========================================================= */
-  const viewer = $('#viewer');
-  const vTrack = $('#viewerTrack');
-  const vStage = $('#viewerStage');
-  const vTitle = $('#viewerTitle');
-  const vCount = $('#viewerCount');
-  const vDots = $('#viewerDots');
-  const vPrev = $('#viewerPrev');
-  const vNext = $('#viewerNext');
-  const vCta = $('#viewerCta');
+  /* VIEWER */
+  const viewer   = $('#viewer');
+  const vTrack   = $('#viewerTrack');
+  const vStage   = $('#viewerStage');
+  const vTitle   = $('#viewerTitle');
+  const vCount   = $('#viewerCount');
+  const vDots    = $('#viewerDots');
+  const vPrev    = $('#viewerPrev');
+  const vNext    = $('#viewerNext');
+  const vCta     = $('#viewerCta');
 
-  let vItems = [];   // [{ html, title, wa }]
-  let vIndex = 0;
+  let vItems = [], vIndex = 0;
 
   const vRender = (animate = true) => {
     vTrack.classList.toggle('no-anim', !animate || reduceMotion);
@@ -2185,189 +1236,124 @@ body.modal-open { overflow: hidden; }
     vCta.href = waLink(item.wa || "Hi ApexCV! I'd like help with my CV.");
     vPrev.disabled = vIndex === 0;
     vNext.disabled = vIndex === vItems.length - 1;
-    $$('i', vDots).forEach((d, k) => d.classList.toggle('on', k === vIndex));
+    $$('i', vDots).forEach((d,k) => d.classList.toggle('on', k === vIndex));
   };
-  const vGo = (i) => {
-    vIndex = Math.min(vItems.length - 1, Math.max(0, i));
-    vRender(true);
-  };
+  const vGo = i => { vIndex = Math.min(vItems.length-1, Math.max(0,i)); vRender(true); };
 
   const openViewer = (items, start, ctaLabel) => {
-    vItems = items;
-    vIndex = Math.min(items.length - 1, Math.max(0, start));
-    vTrack.innerHTML = items.map((it) => `<div class="viewer-slide">${it.html}</div>`).join('');
-    // dots only when the set is small enough to be readable
-    vDots.innerHTML = items.length <= 20 ? items.map(() => '<i></i>').join('') : '';
+    vItems = items; vIndex = Math.min(items.length-1, Math.max(0,start));
+    vTrack.innerHTML = items.map(it => `<div class="viewer-slide">${it.html}</div>`).join('');
+    vDots.innerHTML = items.length <= 20 ? items.map(()=>'<i></i>').join('') : '';
     vCta.querySelector('span').textContent = ctaLabel || 'Use this design';
-    viewer.classList.add('is-open');
-    document.body.classList.add('modal-open');
-    vRender(false);
-    requestAnimationFrame(() => vRender(false));
+    viewer.classList.add('is-open'); document.body.classList.add('modal-open');
+    vRender(false); requestAnimationFrame(() => vRender(false));
   };
-  const closeViewer = () => {
-    viewer.classList.remove('is-open');
-    document.body.classList.remove('modal-open');
-    vTrack.innerHTML = '';
-    vItems = [];
-  };
+  const closeViewer = () => { viewer.classList.remove('is-open'); document.body.classList.remove('modal-open'); vTrack.innerHTML = ''; vItems = []; };
 
   $('#viewerClose').addEventListener('click', closeViewer);
-  vPrev.addEventListener('click', () => vGo(vIndex - 1));
-  vNext.addEventListener('click', () => vGo(vIndex + 1));
-  viewer.addEventListener('click', (e) => { if (e.target === viewer || e.target === vStage) closeViewer(); });
-  document.addEventListener('keydown', (e) => {
+  vPrev.addEventListener('click', () => vGo(vIndex-1));
+  vNext.addEventListener('click', () => vGo(vIndex+1));
+  viewer.addEventListener('click', e => { if (e.target === viewer || e.target === vStage) closeViewer(); });
+  document.addEventListener('keydown', e => {
     if (!viewer.classList.contains('is-open')) return;
     if (e.key === 'Escape') closeViewer();
-    else if (e.key === 'ArrowLeft') vGo(vIndex - 1);
-    else if (e.key === 'ArrowRight') vGo(vIndex + 1);
+    else if (e.key === 'ArrowLeft') vGo(vIndex-1);
+    else if (e.key === 'ArrowRight') vGo(vIndex+1);
   });
 
-  // --- swipe ---
-  let sx = 0, sy = 0, dx = 0, swiping = false, locked = null;
-  vStage.addEventListener('pointerdown', (e) => {
-    swiping = true; locked = null; dx = 0;
-    sx = e.clientX; sy = e.clientY;
-    vTrack.classList.add('no-anim');
-  });
-  vStage.addEventListener('pointermove', (e) => {
+  // Swipe
+  let sx=0, sy=0, dx=0, swiping=false, locked=null;
+  vStage.addEventListener('pointerdown', e => { swiping=true; locked=null; dx=0; sx=e.clientX; sy=e.clientY; vTrack.classList.add('no-anim'); });
+  vStage.addEventListener('pointermove', e => {
     if (!swiping) return;
-    const mx = e.clientX - sx;
-    const my = e.clientY - sy;
-    if (locked === null && (Math.abs(mx) > 8 || Math.abs(my) > 8)) locked = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
-    if (locked !== 'x') return;
-    dx = mx;
-    const w = vStage.clientWidth || 1;
-    let pct = (dx / w) * 100;
-    // resist at the ends
-    if ((vIndex === 0 && pct > 0) || (vIndex === vItems.length - 1 && pct < 0)) pct *= 0.3;
-    vTrack.style.transform = `translateX(${-vIndex * 100 + pct}%)`;
+    const mx=e.clientX-sx, my=e.clientY-sy;
+    if (locked===null && (Math.abs(mx)>8||Math.abs(my)>8)) locked=Math.abs(mx)>Math.abs(my)?'x':'y';
+    if (locked!=='x') return;
+    dx=mx; const w=vStage.clientWidth||1; let pct=(dx/w)*100;
+    if ((vIndex===0&&pct>0)||(vIndex===vItems.length-1&&pct<0)) pct*=0.3;
+    vTrack.style.transform=`translateX(${-vIndex*100+pct}%)`;
   });
   const endSwipe = () => {
-    if (!swiping) return;
-    swiping = false;
-    const w = vStage.clientWidth || 1;
-    if (locked === 'x' && Math.abs(dx) > Math.min(70, w * 0.18)) vGo(vIndex + (dx < 0 ? 1 : -1));
-    else vRender(true);
-    dx = 0; locked = null;
+    if (!swiping) return; swiping=false;
+    const w=vStage.clientWidth||1;
+    if (locked==='x'&&Math.abs(dx)>Math.min(70,w*0.18)) vGo(vIndex+(dx<0?1:-1)); else vRender(true);
+    dx=0; locked=null;
   };
-  ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => vStage.addEventListener(t, endSwipe));
+  ['pointerup','pointercancel','pointerleave'].forEach(t => vStage.addEventListener(t, endSwipe));
 
-  // --- open the viewer from a template card: every design, swipeable ---
-  const templateItems = () => templates.map((t, i) => ({
-    html: `<div class="viewer-frame">${cvHTML(t, i)}</div>`,
-    title: `Template #${i + 1}`,
-    wa: `Hi ApexCV! I'd like Template #${i + 1} (${t.role} layout) for my CV.`
+  // Template viewer items — real images
+  const templateItems = () => templates.map(t => ({
+    html: `<div class="viewer-frame"><img src="${t.src}" alt="CV Template #${t.num}" loading="lazy" onerror="this.style.opacity='0'"></div>`,
+    title: `Template #${t.num}`,
+    wa: `Hi ApexCV! I'd like Template #${t.num} for my CV.`
   }));
-  [tplTrack, tplMore].forEach((box) => box.addEventListener('click', (e) => {
+
+  [tplTrack, tplMore].forEach(box => box.addEventListener('click', e => {
     const card = e.target.closest('.tpl-card');
     if (card) openViewer(templateItems(), Number(card.dataset.i), 'Use this template');
   }));
 
-  /* =========================================================
-     BEFORE / AFTER SLIDER — auto-slides back and forth, draggable
-     ========================================================= */
+  /* BEFORE / AFTER */
   const ba = $('#ba');
   const handle = $('#baHandle');
-  let pos = 50;
-  let dragging = false;
-  let baDirection = 1; // 1 = sliding right, -1 = sliding left
-  let baPausedUntil = 0;
-  const BA_MIN = 12, BA_MAX = 88, BA_SPEED = 0.3; // % per animation frame
-
-  const setPos = (p) => {
-    pos = Math.min(100, Math.max(0, p));
-    ba.style.setProperty('--pos', pos + '%');
-    handle.setAttribute('aria-valuenow', String(Math.round(pos)));
-  };
-  const posFromEvent = (e) => {
-    const r = ba.getBoundingClientRect();
-    setPos(((e.clientX - r.left) / r.width) * 100);
-  };
-  const pauseAutoSlide = () => { baPausedUntil = performance.now() + 1800; };
-
-  ba.addEventListener('pointerdown', (e) => {
-    dragging = true;
-    ba.setPointerCapture(e.pointerId);
-    posFromEvent(e);
+  let pos=50, dragging=false, baDirection=1, baPausedUntil=0;
+  const BA_MIN=12, BA_MAX=88, BA_SPEED=0.3;
+  const setPos = p => { pos=Math.min(100,Math.max(0,p)); ba.style.setProperty('--pos',pos+'%'); handle.setAttribute('aria-valuenow',String(Math.round(pos))); };
+  const posFromEvent = e => { const r=ba.getBoundingClientRect(); setPos(((e.clientX-r.left)/r.width)*100); };
+  const pauseAutoSlide = () => { baPausedUntil=performance.now()+1800; };
+  ba.addEventListener('pointerdown', e => { dragging=true; ba.setPointerCapture(e.pointerId); posFromEvent(e); });
+  ba.addEventListener('pointermove', e => { if(dragging) posFromEvent(e); });
+  ['pointerup','pointercancel','lostpointercapture'].forEach(t => ba.addEventListener(t, ()=>{ dragging=false; pauseAutoSlide(); }));
+  handle.addEventListener('keydown', e => {
+    const step=e.shiftKey?15:5;
+    if(e.key==='ArrowLeft'){setPos(pos-step);pauseAutoSlide();e.preventDefault();}
+    else if(e.key==='ArrowRight'){setPos(pos+step);pauseAutoSlide();e.preventDefault();}
+    else if(e.key==='Home'){setPos(0);pauseAutoSlide();e.preventDefault();}
+    else if(e.key==='End'){setPos(100);pauseAutoSlide();e.preventDefault();}
   });
-  ba.addEventListener('pointermove', (e) => { if (dragging) posFromEvent(e); });
-  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => ba.addEventListener(type, () => { dragging = false; pauseAutoSlide(); }));
-  handle.addEventListener('keydown', (e) => {
-    const step = e.shiftKey ? 15 : 5;
-    if (e.key === 'ArrowLeft') { setPos(pos - step); pauseAutoSlide(); e.preventDefault(); }
-    else if (e.key === 'ArrowRight') { setPos(pos + step); pauseAutoSlide(); e.preventDefault(); }
-    else if (e.key === 'Home') { setPos(0); pauseAutoSlide(); e.preventDefault(); }
-    else if (e.key === 'End') { setPos(100); pauseAutoSlide(); e.preventDefault(); }
-  });
-
   if (!reduceMotion) {
-    const baTick = (now) => {
+    const baTick = now => {
       if (!dragging && now > baPausedUntil) {
         pos += BA_SPEED * baDirection;
-        if (pos >= BA_MAX) { pos = BA_MAX; baDirection = -1; }
-        else if (pos <= BA_MIN) { pos = BA_MIN; baDirection = 1; }
-        ba.style.setProperty('--pos', pos + '%');
-        handle.setAttribute('aria-valuenow', String(Math.round(pos)));
+        if (pos >= BA_MAX) { pos=BA_MAX; baDirection=-1; } else if (pos <= BA_MIN) { pos=BA_MIN; baDirection=1; }
+        ba.style.setProperty('--pos', pos+'%'); handle.setAttribute('aria-valuenow', String(Math.round(pos)));
       }
       requestAnimationFrame(baTick);
     };
     requestAnimationFrame(baTick);
   }
 
-  /* =========================================================
-     SHOOTS  — add photos as assets/shoots/shoot-1.jpg … shoot-8.jpg
-     ========================================================= */
+  /* SHOOTS */
   const SHOOT_COUNT = 8;
   const shootGrid = $('#shootGrid');
-  shootGrid.innerHTML = Array.from({ length: SHOOT_COUNT }, (_, i) => `
-    <figure class="shoot${i >= 4 ? ' is-extra' : ''}"${i >= 4 ? ' hidden' : ''}>
+  shootGrid.innerHTML = Array.from({length:SHOOT_COUNT},(_,i)=>`
+    <figure class="shoot${i>=4?' is-extra':''}"${i>=4?' hidden':''}>
       <span class="shoot-ph"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg></span>
-      <img src="assets/shoots/shoot-${i + 1}.jpg" alt="ApexCV brand photoshoot ${i + 1}" loading="lazy">
+      <img src="assets/shoots/shoot-${i+1}.jpg" alt="ApexCV brand photoshoot ${i+1}" loading="lazy">
       <figcaption class="shoot-cap"><svg class="ic ic-xs" aria-hidden="true"><use href="#i-camera"/></svg>Our Shoots</figcaption>
     </figure>`).join('');
-  $$('img', shootGrid).forEach((img) => {
-    img.addEventListener('error', () => img.remove()); // falls back to the soft placeholder tile
-    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) img.remove();
-  });
-  const shootToggle = $('#shootToggle');
-  const shootLabel = $('#shootToggleLabel');
+  $$('img', shootGrid).forEach(img => { img.addEventListener('error',()=>img.remove()); if(img.complete&&img.naturalWidth===0&&img.getAttribute('src')) img.remove(); });
+  const shootToggle=$('#shootToggle'), shootLabel=$('#shootToggleLabel');
   shootToggle.addEventListener('click', () => {
-    const extras = $$('.is-extra', shootGrid);
-    const opening = extras[0].hidden;
-    extras.forEach((f) => { f.hidden = !opening; });
-    shootToggle.setAttribute('aria-expanded', String(opening));
-    shootLabel.textContent = opening ? 'Show Less' : 'Show More';
+    const extras=$$('.is-extra',shootGrid), opening=extras[0].hidden;
+    extras.forEach(f=>{f.hidden=!opening;});
+    shootToggle.setAttribute('aria-expanded',String(opening));
+    shootLabel.textContent=opening?'Show Less':'Show More';
   });
-
-  /* Shoots open in the same swipeable, zoom-locked viewer */
-  const shootItems = () => Array.from({ length: SHOOT_COUNT }, (_, i) => ({
-    html: `<div class="viewer-frame viewer-frame-photo">
-             <span class="shoot-ph"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg></span>
-             <img src="assets/shoots/shoot-${i + 1}.jpg" alt="ApexCV brand photoshoot ${i + 1}"
-                  onerror="this.remove()">
-           </div>`,
-    title: `Shoot ${i + 1}`,
-    wa: 'Hi ApexCV! I saw your shoots and would like to book one.'
+  const shootItems = () => Array.from({length:SHOOT_COUNT},(_,i)=>({
+    html:`<div class="viewer-frame viewer-frame-photo"><span class="shoot-ph"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg></span><img src="assets/shoots/shoot-${i+1}.jpg" alt="ApexCV brand photoshoot ${i+1}" onerror="this.remove()"></div>`,
+    title:`Shoot ${i+1}`, wa:'Hi ApexCV! I saw your shoots and would like to book one.'
   }));
-  shootGrid.addEventListener('click', (e) => {
-    const fig = e.target.closest('.shoot');
-    if (!fig) return;
-    openViewer(shootItems(), $$('.shoot', shootGrid).indexOf(fig), 'Book a shoot');
-  });
-  $$('.shoot', shootGrid).forEach((f) => { f.style.cursor = 'zoom-in'; });
+  shootGrid.addEventListener('click', e => { const fig=e.target.closest('.shoot'); if(!fig) return; openViewer(shootItems(),$$('.shoot',shootGrid).indexOf(fig),'Book a shoot'); });
+  $$('.shoot',shootGrid).forEach(f=>{ f.style.cursor='zoom-in'; });
 
-  /* =========================================================
-     STICKY MOBILE CTA — tuck away while pricing / footer are on screen
-     ========================================================= */
-  const sticky = $('#stickyCta');
-  const watch = [$('#packages'), $('#contact')].filter(Boolean);
+  /* STICKY CTA */
+  const sticky=$('#stickyCta');
+  const watch=[$('#packages'),$('#contact')].filter(Boolean);
   if (sticky && 'IntersectionObserver' in window) {
-    const visible = new Map();
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => visible.set(e.target, e.isIntersecting));
-      sticky.classList.toggle('is-hidden', [...visible.values()].some(Boolean));
-    }, { threshold: 0.12 });
-    watch.forEach((el) => io.observe(el));
+    const visible=new Map();
+    const io=new IntersectionObserver(entries=>{ entries.forEach(e=>visible.set(e.target,e.isIntersecting)); sticky.classList.toggle('is-hidden',[...visible.values()].some(Boolean)); },{threshold:0.12});
+    watch.forEach(el=>io.observe(el));
   }
 })();
 </script>
